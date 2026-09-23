@@ -144,6 +144,27 @@
     },
     "item": {
       "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "retired"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "required": [
+              "retired_in",
+              "successor_item_codes",
+              "retirement_note"
+            ]
+          }
+        }
+      ],
       "properties": {
         "code": {
           "pattern": "^\\d{2}\\.[A-Z]\\.\\d+$",
@@ -183,6 +204,35 @@
             "minLength": 1,
             "type": "string"
           },
+          "type": "array",
+          "uniqueItems": true
+        },
+        "replaces_item_codes": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "retired_in": {
+          "const": "1.0"
+        },
+        "retirement_note": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "current",
+            "retired"
+          ]
+        },
+        "successor_item_codes": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
           "type": "array",
           "uniqueItems": true
         },
@@ -378,6 +428,14 @@
           },
           "type": "array"
         },
+        "related_section_codes": {
+          "items": {
+            "pattern": "^\\d{2}$",
+            "type": "string"
+          },
+          "type": "array",
+          "uniqueItems": true
+        },
         "subsections": {
           "items": {
             "$ref": "#/$defs/subsection"
@@ -395,7 +453,8 @@
         "code",
         "title",
         "parameters",
-        "subsections"
+        "subsections",
+        "related_section_codes"
       ],
       "type": "object"
     },
@@ -541,12 +600,12 @@
       "type": "object"
     }
   },
-  "$id": "https://cmm.contechcost.com/schemas/CMM-1.0.schema.json",
+  "$id": "urn:cmm:1.0",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "additionalProperties": false,
   "properties": {
     "$schema": {
-      "const": "schemas/CMM-1.0.schema.json"
+      "const": "CMM-1.0.schema.json"
     },
     "allowed_value_rules": {
       "additionalProperties": {
@@ -621,6 +680,33 @@
         "$ref": "#/$defs/dictionary"
       },
       "type": "object"
+    },
+    "general_rules": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "text": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "text"
+        ],
+        "type": "object"
+      },
+      "minItems": 7,
+      "type": "array"
     },
     "hierarchy": {
       "items": {
@@ -777,8 +863,9 @@
     "shared_parameters",
     "dictionaries",
     "sections",
-    "counts"
+    "counts",
+    "general_rules"
   ],
-  "title": "Contech Method of Measurement 1.0 public contract",
+  "title": "CMM Edition 1.0",
   "type": "object"
 }
