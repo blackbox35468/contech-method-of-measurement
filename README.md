@@ -39,6 +39,8 @@ Construction professionals can read the item names and measurement rules directl
 
 Always retain the edition and canonical checksum with any copied or transformed CMM data. Mark changes clearly rather than presenting an adaptation as the unchanged CMM release.
 
+The separate [IFC routing guide](companions/ifc-routing-1.0/README.md) records a review outcome for every CMM 1.0 measured item. It suggests possible model-object routes where defensible, and explicitly marks work that needs more information or has no safe model route. It never supplies a bill quantity or changes CMM measurement rules.
+
 ## Licence and attribution
 
 Contech Method of Measurement (CMM), Edition 1.0, © 2026 BLACKBOX TRADING PTY LTD.
