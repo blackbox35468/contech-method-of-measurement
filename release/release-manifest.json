@@ -1,5 +1,5 @@
 {
-  "canonical_sha256": "8df59e41b3b712467f4f84d004f2b14a55423dce31252d40629d45d15649aec3",
+  "canonical_sha256": "93b847fc507e4e0507fdbdcba9080fa1e874e2d5b56b30fa8056e2d9616ab36e",
   "counts": {
     "dictionaries": 1,
     "measured_items": 813,
@@ -14,7 +14,7 @@
   ],
   "status": "published",
   "validation": {
-    "real_drawing_tests": "outstanding: pipe-to-pit, slab thickenings, slab/pavement boundary and rock need dimensioned drawings",
+    "quantity_boundaries": "checked on worked examples; watch in live use",
     "worked_examples": "passed"
   }
 }
