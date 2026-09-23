@@ -12714,9 +12714,19 @@
                   "text": "External concrete pavement, measured at 61.B.1",
                   "threshold": null,
                   "unit": null
+                },
+                {
+                  "applies_to": "roofed or attached outdoor slabs built as part of the building slab",
+                  "goes_to": [],
+                  "id": "cmm.rule.11.B.1.owner.4",
+                  "kind": "convention",
+                  "operator": null,
+                  "text": "Roofed or attached outdoor slabs built as part of the building slab are measured at 11.B.1",
+                  "threshold": null,
+                  "unit": null
                 }
               ],
-              "one_unit_is": "One cubic metre of concrete in a ground-bearing slab forming part of the building structure or within its footprint. Measure the uniform slab as plan area multiplied by its stated thickness, plus the net extra concrete in any integral thickening. An edge beam or distinct ground beam is measured at 11.C.4 or 11.A.3 respectively, not again with the slab.",
+              "one_unit_is": "One cubic metre of concrete in a ground-bearing slab forming part of the building structure or within its footprint, including roofed or attached outdoor slabs built as part of the building slab. Measure the uniform slab as plan area multiplied by its stated thickness, plus the net extra concrete in any integral thickening. An edge beam or distinct ground beam is measured at 11.C.4 or 11.A.3 respectively, not again with the slab.",
               "parameter_ids": [
                 "sec.11.req.concrete_strength",
                 "sec.11.req.exposure_class",
@@ -56563,7 +56573,7 @@
                   "id": "cmm.rule.60.A.1.draft.2",
                   "kind": "convention",
                   "operator": null,
-                  "text": "Where the pipe connects to a pit or manhole, measure to the inside face of the pit wall",
+                  "text": "Where the pipe connects to a pit or manhole, measure to the inside face of the pit wall. Where the pit's inside size is not shown, measure to the pit centre and state it in the description",
                   "threshold": null,
                   "unit": null
                 },
@@ -56575,12 +56585,12 @@
                   "id": "cmm.rule.60.A.1.draft.3",
                   "kind": "boundary",
                   "operator": null,
-                  "text": "pipe and fittings within the pit are included with the pit unless separately stated",
+                  "text": "Pipework and fittings within the pit are included at 60.B.1, except the pipe length measured to the pit centre when the inside size is not shown",
                   "threshold": null,
                   "unit": null
                 }
               ],
-              "one_unit_is": "One metre of private-site stormwater pipe installed on the property side of the authority connection, measured along the pipe centre line between stated connection points. Where the pipe connects to a pit or manhole, measure to the inside face of the pit wall; pipe and fittings within the pit are included with the pit unless separately stated.",
+              "one_unit_is": "One metre of private-site stormwater pipe installed on the property side of the authority connection, measured along the pipe centre line between stated connection points. Where the pipe connects to a pit or manhole, measure to the inside face of the pit wall. Where the pit's inside size is not shown, measure to the pit centre and state it in the description. Pipework and fittings within the pit are included at 60.B.1, except the pipe length measured to the pit centre under this rule.",
               "parameter_ids": [
                 "sec.60.req.service_designation",
                 "sec.60.req.installation_location",
@@ -56628,7 +56638,7 @@
                   "id": "cmm.rule.60.A.2.draft.2",
                   "kind": "convention",
                   "operator": null,
-                  "text": "Where the pipe connects to a pit or manhole, measure to the inside face of the pit wall",
+                  "text": "Where the pipe connects to a pit or manhole, measure to the inside face of the pit wall. Where the pit's inside size is not shown, measure to the pit centre and state it in the description",
                   "threshold": null,
                   "unit": null
                 },
@@ -56640,12 +56650,12 @@
                   "id": "cmm.rule.60.A.2.draft.3",
                   "kind": "boundary",
                   "operator": null,
-                  "text": "pipe and fittings within the pit are included with the pit unless separately stated",
+                  "text": "Pipework and fittings within the pit are included at 60.B.1, except the pipe length measured to the pit centre when the inside size is not shown",
                   "threshold": null,
                   "unit": null
                 }
               ],
-              "one_unit_is": "One metre of private-site sanitary drainage pipe installed on the property side of the authority connection, measured along the pipe centre line between stated connection points. Where the pipe connects to a pit or manhole, measure to the inside face of the pit wall; pipe and fittings within the pit are included with the pit unless separately stated.",
+              "one_unit_is": "One metre of private-site sanitary drainage pipe installed on the property side of the authority connection, measured along the pipe centre line between stated connection points. Where the pipe connects to a pit or manhole, measure to the inside face of the pit wall. Where the pit's inside size is not shown, measure to the pit centre and state it in the description. Pipework and fittings within the pit are included at 60.B.1, except the pipe length measured to the pit centre under this rule.",
               "parameter_ids": [
                 "sec.60.req.service_designation",
                 "sec.60.req.installation_location",
@@ -56785,9 +56795,9 @@
           "items": [
             {
               "code": "60.B.1",
-              "excluded": "Connecting pipework outside the inside face of a pit or manhole wall, measured at 60.A.1 or 60.A.2. Pit excavation at 10.B.3 and external backfill at 10.D.2.",
+              "excluded": "Connecting pipework measured at 60.A.1 or 60.A.2: to the inside face of the pit or manhole wall, or to the pit centre when its inside size is not shown. Pit excavation at 10.B.3 and external backfill at 10.D.2.",
               "id": "cmm.item.60.B.1",
-              "included": "The stated structure, frame, cover or grate, pipe penetrations and seals, and pipework and fittings within a pit or manhole unless separately stated.",
+              "included": "The stated structure, frame, cover or grate, pipe penetrations and seals, and pipework and fittings within a pit or manhole unless separately stated, except pipe length measured to the pit centre at 60.A.1 or 60.A.2 when the pit's inside size is not shown.",
               "measurement_rules": [
                 {
                   "applies_to": "pipework connecting to a pit or manhole",
@@ -56798,7 +56808,7 @@
                   "id": "cmm.rule.60.B.1.draft.1",
                   "kind": "boundary",
                   "operator": null,
-                  "text": "Connecting pipework outside the inside face of a pit or manhole wall, measured at 60.A.1 or 60.A.2",
+                  "text": "Connecting pipework measured at 60.A.1 or 60.A.2: to the inside face of the pit or manhole wall, or to the pit centre when its inside size is not shown",
                   "threshold": null,
                   "unit": null
                 }
@@ -57462,7 +57472,7 @@
           "items": [
             {
               "code": "61.B.1",
-              "excluded": "Subbase unless stated; a slab forming part of the building structure or within its footprint, measured at 11.B.1; bar reinforcement, measured at 13.A.1; public-road concrete pavement at 65.A.5.",
+              "excluded": "Subbase unless stated; a slab forming part of the building structure or within its footprint, including a roofed or attached outdoor slab built as part of the building slab, measured at 11.B.1; bar reinforcement, measured at 13.A.1; public-road concrete pavement at 65.A.5.",
               "id": "cmm.item.61.B.1",
               "included": "Concrete, stated finish, joints and stated mesh reinforcement.",
               "measurement_rules": [
@@ -57475,9 +57485,21 @@
                   "text": "measured on plan",
                   "threshold": null,
                   "unit": null
+                },
+                {
+                  "applies_to": "roofed or attached outdoor slabs built as part of the building slab",
+                  "goes_to": [
+                    "11.B.1"
+                  ],
+                  "id": "cmm.rule.61.B.1.owner.2",
+                  "kind": "boundary",
+                  "operator": null,
+                  "text": "Roofed or attached outdoor slabs built as part of the building slab are measured at 11.B.1",
+                  "threshold": null,
+                  "unit": null
                 }
               ],
-              "one_unit_is": "One square metre of finished external concrete driveway, path, pavement or hardstand outside the building footprint, measured on plan.",
+              "one_unit_is": "One square metre of finished external concrete driveway, path, pavement or hardstand outside the building footprint, measured on plan. Roofed or attached outdoor slabs built as part of the building slab are measured at 11.B.1.",
               "parameter_ids": [
                 "sec.61.req.pavement_designation",
                 "sec.61.req.layer_thickness",
