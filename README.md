@@ -10,6 +10,25 @@ CMM is a rate-free method of measurement for construction. It gives people and s
 
 CMM stops at the measured item. It does not contain construction methods, labour gangs, resources, productivity, prices or regional rates.
 
+## Release 1.2
+
+The `release-1.2/` directory contains CMM Edition 1.2:
+
+- `CMM-1.2.json` — the canonical machine-readable standard;
+- `schemas/CMM-1.2.schema.json` — its validation schema;
+- `release-manifest.json` — release identity, counts, checksums and validation status; and
+- `SHA256SUMS` — the checksum register.
+
+The canonical CMM 1.2 SHA-256 is:
+
+```text
+f8e1f1e0158cde8d786041ffb5754f9bc84e14f3ef5d649ece9b3a2efcc32358
+```
+
+Edition 1.2 retires 60.C.1, 60.C.2 and 60.C.3 (trench bedding, surround and selected backfill are now measured once per trench run at 10.D.4, 10.D.5 and 10.D.2). Retired items name their successors; re-measure, never convert old quantities. Real-drawing validation of four boundaries is outstanding; worked examples pass.
+
+Release 1.0 below remains available and unchanged.
+
 ## Release 1.0
 
 The `release/` directory contains the complete CMM 1.0 issue:
