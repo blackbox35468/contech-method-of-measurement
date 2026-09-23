@@ -1,0 +1,19 @@
+{
+  "guide_version": "1.0",
+  "published_on": "2026-09-23",
+  "status": "public_guidance_not_automatic_measurement",
+  "cmm_edition": "1.0",
+  "cmm_canonical_sha256": "8e227a98b038a2eb5bd10527fd311d496b1f5e43380564d13fb75c1744a3ff2c",
+  "source_review_sha256": "9285b6674d05c4c8bb77695a2979eb06c2d6bbcfc7624fae39fd84f6048831d4",
+  "item_count": 801,
+  "counts": {
+    "candidate_for_estimator_review": 239,
+    "requires_information": 300,
+    "no_safe_route_with_current_evidence": 82,
+    "not_normally_modelled": 180
+  },
+  "automatic_bill_quantity": false,
+  "estimator_review_required": true,
+  "guide_sha256": "52937964fe3962f5ff0b99a31b0e776a43984333b0e4780eb35888898a8095a4",
+  "schema_sha256": "9f6fa804aed2d64d3f1ad11ce6347007426a2dfe55ecc20e3b7190d8763dd2e2"
+}
