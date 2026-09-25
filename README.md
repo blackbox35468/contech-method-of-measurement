@@ -10,27 +10,27 @@ CMM is a rate-free method of measurement for construction. It gives people and s
 
 CMM stops at the measured item. It does not contain construction methods, labour gangs, resources, productivity, prices or regional rates.
 
-## Current release: Edition 1.0.1
+## Current release: Edition 1.0.2
 
-The `release-1.0.1/` directory contains the corrected CMM issue: 59 work sections, 203 work subsections and 813 measured-item records, including three retired items kept for reference. The signed original Edition 1.0 stays in `release/` and at its `cmm-v1.0` tag.
+The `release-1.0.2/` directory contains the current CMM issue: 59 work sections, 203 work subsections and 813 measured-item records, including three retired items kept for reference. The signed original Edition 1.0 stays in `release/`; Edition 1.0.1 stays in `release-1.0.1/` for earlier references.
 
-- `CMM-1.0.1.json` — the canonical machine-readable standard;
-- `schemas/CMM-1.0.1.schema.json` — its validation schema;
+- `CMM-1.0.2.json` — the canonical machine-readable standard;
+- `schemas/CMM-1.0.2.schema.json` — its validation schema;
 - `release-manifest.json` — release identity, counts, checksums and validation status; and
 - `SHA256SUMS` — the checksum register for every release file.
 
-The canonical CMM 1.0.1 SHA-256 is:
+The canonical CMM 1.0.2 SHA-256 is:
 
 ```text
-4afc00de8388e5a1cce9358d763da0388855e236fbe0bfce56a890726d55dfce
+8cb74c0579667022108a1216baee364178053ca3344a93e7f63ba7c028f3ed0c
 ```
 
-Items 60.C.1–60.C.3 are retired but remain readable so older references can be reviewed. Their successors use different measurement bases: re-measure the work rather than converting an old quantity. Worked examples pass; quantity boundaries have been checked on worked examples and remain under observation in live use. Edition 1.0.1 also replaces 306 authoring-labelled rule IDs with stable public IDs; the Reader's migration record resolves the former IDs.
+Items 60.C.1–60.C.3 are retired but remain readable so older references can be reviewed. Their successors use different measurement bases: re-measure the work rather than converting an old quantity. Worked examples pass; quantity boundaries have been checked on worked examples and remain under observation in live use. Edition 1.0.2 retains the clean public rule IDs and their migration aliases, and states five civil contract facts already required by the items' measurement wording. Item codes, units and quantity rules are unchanged from 1.0.1.
 
 Verify the release after downloading it:
 
 ```bash
-cd release-1.0.1
+cd release-1.0.2
 sha256sum -c SHA256SUMS
 ```
 
@@ -42,14 +42,14 @@ Always retain the edition and canonical checksum with any copied or transformed 
 
 ## Licence and attribution
 
-Contech Method of Measurement (CMM), Edition 1.0.1, © 2026 BLACKBOX TRADING PTY LTD.
+Contech Method of Measurement (CMM), Edition 1.0.2, © 2026 BLACKBOX TRADING PTY LTD.
 
 Licensed under the [Creative Commons Attribution 4.0 International licence](https://creativecommons.org/licenses/by/4.0/). See [`LICENSE`](LICENSE) for the full legal text.
 
 Suggested attribution:
 
 ```text
-Contech Method of Measurement (CMM), Edition 1.0.1, © 2026 BLACKBOX TRADING PTY LTD, licensed CC BY 4.0.
+Contech Method of Measurement (CMM), Edition 1.0.2, © 2026 BLACKBOX TRADING PTY LTD, licensed CC BY 4.0.
 ```
 
 ## Corrections and proposals
