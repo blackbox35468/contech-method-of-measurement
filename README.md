@@ -12,7 +12,7 @@ CMM stops at the measured item. It does not contain construction methods, labour
 
 ## Current release: Edition 1.0.2
 
-The `release-1.0.2/` directory contains the current CMM issue: 59 work sections, 203 work subsections and 813 measured-item records, including three retired items kept for reference. The signed original Edition 1.0 stays in `release/`; Edition 1.0.1 stays in `release-1.0.1/` for earlier references.
+The `release-1.0.2/` directory contains the current CMM issue: 59 work sections, 203 work subsections and 813 measured-item records, including three retired items kept for reference. The checksum-verified original Edition 1.0 stays in `release/`; Edition 1.0.1 stays in `release-1.0.1/` for earlier references.
 
 - `CMM-1.0.2.json` — the canonical machine-readable standard;
 - `schemas/CMM-1.0.2.schema.json` — its validation schema;
@@ -33,6 +33,19 @@ Verify the release after downloading it:
 cd release-1.0.2
 sha256sum -c SHA256SUMS
 ```
+
+For releases published after the attestation workflow was introduced, the
+uploaded files are checked against the tagged package and digitally attested
+by GitHub Actions. Verify a downloaded canonical file with:
+
+```bash
+gh attestation verify CMM-EDITION.json --repo blackbox35468/contech-method-of-measurement --signer-workflow blackbox35468/contech-method-of-measurement/.github/workflows/attest-cmm-release.yml
+```
+
+Replace `EDITION` with the edition in the file name. Existing releases have
+checksums but were not retroactively digitally signed. An attestation proves
+which workflow supplied the bytes; it does not certify that every measurement
+rule is correct.
 
 ## Using CMM
 
