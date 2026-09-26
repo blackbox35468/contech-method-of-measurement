@@ -1,0 +1,47 @@
+name: Attest CMM release assets
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+  id-token: write
+  attestations: write
+
+jobs:
+  attest:
+    if: startsWith(github.event.release.tag_name, 'cmm-v')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the published tag
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.release.tag_name }}
+          fetch-depth: 0
+      - name: Require tag to come from the default branch
+        run: |
+          git fetch origin main
+          git merge-base --is-ancestor HEAD origin/main
+      - name: Download the uploaded release files
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/cmm-release-assets"
+          gh release download "$RELEASE_TAG" --dir "$RUNNER_TEMP/cmm-release-assets" --clobber
+      - name: Verify checksums and exact uploaded bytes
+        env:
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+        run: bash scripts/verify-release-assets.sh "$RELEASE_TAG" "$RUNNER_TEMP/cmm-release-assets"
+      - name: Sign provenance of the uploaded files
+        uses: actions/attest@v4
+        with:
+          subject-path: '${{ runner.temp }}/cmm-release-assets/*'
+      - name: Verify the signed canonical CMM file
+        env:
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          edition=${RELEASE_TAG#cmm-v}
+          gh attestation verify "$RUNNER_TEMP/cmm-release-assets/CMM-$edition.json" --repo "$GITHUB_REPOSITORY" --signer-workflow "$GITHUB_REPOSITORY/.github/workflows/attest-cmm-release.yml"
