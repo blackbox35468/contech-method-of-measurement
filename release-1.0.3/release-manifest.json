@@ -1,0 +1,20 @@
+{
+  "canonical_sha256": "f9dc7d4ec8e1dce20c6106e4eb1a20a0eacc466de2c52671b9c2ed81241a493f",
+  "counts": {
+    "dictionaries": 1,
+    "measured_items": 813,
+    "parameters": 1483,
+    "sections": 59,
+    "subsections": 203
+  },
+  "edition": "1.0.3",
+  "files": [
+    "CMM-1.0.3.json",
+    "schemas/CMM-1.0.3.schema.json"
+  ],
+  "status": "published",
+  "validation": {
+    "quantity_boundaries": "checked on worked examples; watch in live use",
+    "worked_examples": "passed"
+  }
+}
