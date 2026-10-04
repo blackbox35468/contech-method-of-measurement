@@ -2,9 +2,10 @@
 
 This proposal covers staged quantities, their workings, location and coverage decisions.
 Agree it before any app change. Once approved, this storage and API shape moves into the
-ContechCost repo; it stays here only until then. It matches the reference take-offs in
-`reference/`, so the same files can test both. ContechCost owns the screens, storage and
-tools; this is only the shape.
+ContechCost repo; it stays here only until then. The worked examples in `reference/`
+can exercise the shape, but GS-01 is synthetic and unverified and cannot serve as an
+automated-route acceptance test. ContechCost owns the screens, storage and tools;
+this is only the shape.
 
 ## Open decisions before approval
 

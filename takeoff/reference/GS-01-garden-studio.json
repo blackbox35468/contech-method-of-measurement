@@ -1,12 +1,13 @@
 {
   "titles": {
-    "project": "GS-01 Garden studio (reference take-off)",
-    "purpose": "Fixed test job for CMM take-off. Hand-measured to the dimension-paper conventions; automated take-off routes must reproduce these quantities.",
+    "project": "GS-01 Garden studio (synthetic worked example)",
+    "purpose": "Synthetic worked example constructed for this PR. No source drawings or job specification have been verified. Its dimensions and scope are assumptions for checking arithmetic, not an acceptance benchmark for automated take-off.",
     "drawings": [
-      {"number": "GS-01-A-101", "title": "Ground floor plan", "revision": "A"},
-      {"number": "GS-01-A-201", "title": "Section and footing detail", "revision": "A"}
+      {"number": "GS-01-A-101", "title": "Illustrative ground floor plan; no source drawing", "revision": "A"},
+      {"number": "GS-01-A-201", "title": "Illustrative section and footing detail; no source drawing", "revision": "A"}
     ],
     "drawing_facts": [
+      "All following dimensions and work requirements are synthetic assumptions, not transcribed from verified drawings.",
       "External wall face 6000 x 4000 mm on plan; 190 mm concrete block single leaf.",
       "Strip footing 600 wide x 300 deep, centred under the wall, top of footing 300 below existing ground.",
       "Trench 600 wide x 600 deep from existing ground. Geotechnical note: stable clay, no rock, groundwater not encountered, no support needed.",
@@ -25,7 +26,7 @@
       "Lintels: galvanised steel angle 100 x 100 x 8 EA, M3 mortar.",
       "Damp-proof course: polyethylene."
     ],
-    "reproduce": "Automated routes must reproduce each entry's CMM code, unit, squared and billed quantity. Particulars are fixture inputs taken from specification_facts, not values a route is expected to infer from the drawings.",
+    "reproduce": "Internal arithmetic example only. Do not use its quantities as automated-route acceptance targets until the scope, geometry and specification are independently established and approved.",
     "measured_by": "Claude Code",
     "date": "2026-10-04",
     "cmm_edition": "1.0",
