@@ -183,6 +183,17 @@ class ReferenceCheckerTests(unittest.TestCase):
         self.entry(document, "E1")["rows"] = [{"times": ["2"], "dims": []}]
         self.assertTrue(any("squares to 2.0, not 1" in e for e in self.run_checker(document)))
 
+    def test_duplicate_entry_ids_are_rejected(self):
+        document = copy.deepcopy(REFERENCES["GS-01"])
+        mesh = next(e for g in document["groups"] for e in g["entries"] if e["id"] == "E8")
+        mesh["id"] = "E9"
+        self.assertTrue(any("E9: duplicate entry id" in e for e in self.run_checker(document)))
+
+    def test_duplicate_waste_calc_ids_are_rejected(self):
+        document = copy.deepcopy(REFERENCES["GS-01"])
+        document["waste_calcs"][1]["id"] = "WC1"
+        self.assertTrue(any("WC1: duplicate waste calc id" in e for e in self.run_checker(document)))
+
     def test_negative_count_is_rejected(self):
         document = copy.deepcopy(REFERENCES["CW-01"])
         window = self.entry(document, "E1")

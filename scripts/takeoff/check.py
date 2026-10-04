@@ -133,12 +133,17 @@ def check_reference(doc, release, digest, refs_by_code, guidance, policy):
         value = evaluate(calc["expression"])
         if value != calc["result_mm"]:
             errors.append(f"{calc['id']}: {calc['expression']} = {value}, not {calc['result_mm']}")
+        if calc["id"] in calcs:
+            errors.append(f"{calc['id']}: duplicate waste calc id")
         calcs[calc["id"]] = Fraction(calc["result_mm"], 1000)
 
     for group in doc["groups"]:
         for key in ("trade_heading", "signpost"):
             if not group.get(key):
                 errors.append(f"group is missing {key}")
+    entry_ids = [entry["id"] for group in doc["groups"] for entry in group["entries"]]
+    for duplicate in sorted({i for i in entry_ids if entry_ids.count(i) > 1}):
+        errors.append(f"{duplicate}: duplicate entry id; every line must have its own id or it is not checked")
     entries = entries_of(doc)
 
     for entry_id, entry in entries.items():

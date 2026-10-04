@@ -72,6 +72,7 @@ python3 -m unittest discover -s tests
 `check.py` fails when:
 
 - the exclusion references are stale;
+- an entry id or waste calc id is used twice (a duplicate would hide a line from the check);
 - a guidance quote is not in the cited item's wording, or its evidence does not exist;
 - a total does not square exactly from its rows;
 - a row has the wrong number of dimensions for its CMM unit (a metre item takes one
