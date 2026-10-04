@@ -12,8 +12,20 @@
       "Trench 600 wide x 600 deep from existing ground. Geotechnical note: stable clay, no rock, groundwater not encountered, no support needed.",
       "Slab on ground 100 thick N25 with SL72 mesh on 0.2 mm membrane on 100 compacted crushed rock, cast within the walls; top of slab 150 above existing ground.",
       "Wall height 2400 above top of slab. One door opening 920 x 2100; two window openings 1800 x 1200. Steel lintels with 150 bearing each end, no propping.",
-      "Backfill to the outside of the wall with imported granular fill; all excavated material removed from site."
+      "Backfill to the outside of the wall with imported granular fill; all excavated material removed from site.",
+      "Damp-proof course 190 wide in the block wall at slab level, full length except across the door opening."
     ],
+    "specification_facts": [
+      "Disposal: excavated material to a licensed tip as clean fill.",
+      "Backfill: imported granular fill, 150 mm maximum compacted lift, 95% standard maximum dry density; no testing or survey required.",
+      "Footing concrete: N20, exposure A2, 20 mm aggregate, 80 mm slump, shrinkage limit not stated; reinforced with 3-L11TM trench mesh.",
+      "Subbase: crushed rock 20 mm class 3, 98% modified maximum dry density, +0/-20 mm tolerance; no testing or survey required.",
+      "Slab: N25, exposure A1, 20 mm aggregate, 100 mm slump, shrinkage limit not stated, level; SL72 mesh, uncoated; 0.2 mm polyethylene vapour barrier; steel trowel finish.",
+      "Blockwork: 390 x 190 x 190 hollow grey structural block, stretcher bond, M3 mortar, ironed 10 mm joints, both faces fair; no fire or acoustic rating.",
+      "Lintels: galvanised steel angle 100 x 100 x 8 EA, M3 mortar.",
+      "Damp-proof course: polyethylene."
+    ],
+    "reproduce": "Automated routes must reproduce each entry's CMM code, unit, squared and billed quantity. Particulars are fixture inputs taken from specification_facts, not values a route is expected to infer from the drawings.",
     "measured_by": "Claude Code",
     "date": "2026-10-04",
     "cmm_edition": "1.0",

@@ -28,9 +28,9 @@ plain references as advisory and enforces only what `coverage-guidance.json` sta
 Gaps (where CMM 1.0 is silent) are candidates for a later CMM edition once tests confirm them.
 No CMM 1.1 change is proposed yet.
 
-## Quantity policy
+## Quantity policy (proposed, awaiting owner approval)
 
-CMM Edition 1.0 states no rounding rule. `quantity-policy.json` records ContechCost house policy:
+CMM Edition 1.0 states no rounding rule. `quantity-policy.json` records the proposed ContechCost house policy:
 
 - Source measurements keep the precision the source supplied; nothing is rounded when staging.
 - Squared totals are exact.
@@ -43,7 +43,9 @@ CMM Edition 1.0 states no rounding rule. `quantity-policy.json` records ContechC
 
 Each one is measured to dimension-paper conventions: titles, trade headings, signposting,
 waste calcs in mm, fraction timesing with dotting on, deduction rows, anding, and squared and
-billed totals.
+billed totals. `drawing_facts` give everything needed to measure; `specification_facts` give
+the particulars. An automated route must reproduce each entry's CMM code, unit, squared and
+billed quantity; particulars are fixture inputs, not something a route is expected to infer.
 
 - `GS-01-garden-studio.json`: strip footing, slab on ground, and block wall with openings.
   14 entries.
@@ -51,6 +53,14 @@ billed totals.
   dimensions. One assembly is counted once. The head and sill runs go along both faces from
   the opening sizes, not the frame sizes. The opening is deducted on both elevations but
   formed once.
+
+## Known consumer divergence
+
+The element library's cavity masonry element (outside this repo) measures wall area as gross
+minus openings without adding reveals, adds a `14.C.1` lintel for every opening, and names an
+older CMM release. CMM `14.A.1`/`14.A.2` add the actual worked area of reveals, so GS-01's
+block wall is 51.8348 m² (48.582 m² before reveals). Reconcile that element with the current
+release before claiming it matches these references.
 
 ## Checks
 

@@ -1,9 +1,21 @@
 # Proposed data shape for ContechCost take-off (for agreement)
 
 This proposal covers staged quantities, their workings, location and coverage decisions.
-Agree it before any app change. It matches the reference take-offs in `reference/`, so the
-same files can test both. ContechCost owns the screens, storage and tools; this is only
-the shape.
+Agree it before any app change. Once approved, this storage and API shape moves into the
+ContechCost repo; it stays here only until then. It matches the reference take-offs in
+`reference/`, so the same files can test both. ContechCost owns the screens, storage and
+tools; this is only the shape.
+
+## Open decisions before approval
+
+1. **Exact decimal storage.** Choose the database type for `quantity` and `dims` (e.g. Postgres
+   `numeric` without a scale, or a decimal string) so the source precision survives storage,
+   triggers and the API. Today staging rounds to 2 dp before saving.
+2. **Legacy numeric compatibility.** Existing staged rows, BOQ link triggers, workbook files and
+   API clients use plain numbers. Decide whether the API returns strings, numbers or both, and
+   how older clients read new rows.
+3. **Billing rule.** `quantity-policy.json` is a proposal. The default (whole units, half up,
+   minimum 1 for any positive quantity) needs owner approval.
 
 ## 1. Staged quantity
 

@@ -80,9 +80,9 @@
       "when_measured": ["31.B.1", "14.F.3"],
       "relation": "measuring",
       "consider": [],
-      "condition": "At a corner window, measure a head or sill run once along both faces (front opening plus return), from the structural opening sizes. Do not take the window frame size for the opening size: 31.A.1 states the overall frame size, while opening, flashing and wall-deduction dimensions come from the opening. Keep scaled cross-checks at their full precision as evidence; the stamped dimensions govern.",
+      "condition": "31.B.1 already measures perimeter details along their run. At a corner window that run follows both faces: front opening plus return, measured once. Take the run, the opening size (14.F.3) and the wall deduction from the structural opening, not the window frame size, which 31.A.1 states separately. Keep scaled cross-checks at full precision as evidence; stamped dimensions govern.",
       "cmm_source": null,
-      "gap": "CMM 1.0 does not say how a perimeter run is measured around a corner opening.",
+      "gap": "CMM 1.0 does not say how a perimeter run follows a corner opening, or that the structural opening rather than the frame governs that run.",
       "evidence": [{"reference": "CW-01", "entry": "E2"}, {"reference": "CW-01", "entry": "E4"}]
     }
   ]

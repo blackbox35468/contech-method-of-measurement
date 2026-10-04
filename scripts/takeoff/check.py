@@ -106,7 +106,7 @@ def check_reference(doc, release, digest, refs_by_code, guidance, policy):
         errors.append("titles.cmm_edition does not match the release")
     if titles.get("cmm_canonical_sha256") != digest:
         errors.append("titles.cmm_canonical_sha256 does not match the release")
-    for key in ("project", "drawings", "measured_by", "date"):
+    for key in ("project", "drawings", "drawing_facts", "specification_facts", "reproduce", "measured_by", "date"):
         if not titles.get(key):
             errors.append(f"titles.{key} is missing")
 

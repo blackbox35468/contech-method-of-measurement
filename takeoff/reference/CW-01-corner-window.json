@@ -13,6 +13,12 @@
       "Brick veneer 110 thick. Brickwork face 4000 long on the north elevation and 3000 long on the east, as drawn, 2700 high.",
       "Engineer-designed steel corner lintel, 150 bearing at each outer end. Head flashing and sill tray run along both faces and are not supplied with the window."
     ],
+    "specification_facts": [
+      "Window: aluminium, powder coat, fixed front and awning return, 6.38 laminated glass; no acoustic rating, thermal performance not stated, bushfire attack level not applicable.",
+      "Lintel: grade 300 steel, 150 x 90 x 8 unequal angle, welded corner.",
+      "Brickwork: clay face brick 230 x 110 x 76, face brick as selected, stretcher bond, M3 mortar, ironed 10 mm joints, external face finished; no fire or acoustic rating."
+    ],
+    "reproduce": "Automated routes must reproduce each entry's CMM code, unit, squared and billed quantity. Particulars are fixture inputs taken from specification_facts, not values a route is expected to infer from the drawings.",
     "measured_by": "Claude Code",
     "date": "2026-10-04",
     "cmm_edition": "1.0",

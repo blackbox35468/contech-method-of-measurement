@@ -2,7 +2,7 @@
   "title": "Take-off quantity policy (ContechCost house policy, non-canonical)",
   "canonical": false,
   "cmm_edition": "1.0",
-  "status": "CMM Edition 1.0 states no rounding rule. This policy applies until a CMM edition or an item states one.",
+  "status": "PROPOSED, awaiting owner approval. CMM Edition 1.0 states no rounding rule. The principle (source precision kept, rounding only at billing) is agreed; the default rule below (whole units, half up, minimum 1 for any positive quantity) is not yet approved.",
   "precision": {
     "source_measurements": "Keep the precision the source supplied. Do not round when staging.",
     "squared_totals": "Exact; never rounded.",
