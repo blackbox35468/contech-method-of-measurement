@@ -6,7 +6,7 @@ Everything here reads the published CMM release and never writes to it.
 import hashlib
 import json
 import re
-from decimal import ROUND_HALF_UP, Decimal
+from decimal import ROUND_CEILING, ROUND_HALF_UP, Decimal
 from fractions import Fraction
 from pathlib import Path
 
@@ -101,12 +101,17 @@ def rounding_rule(policy, code, unit, kind):
 def billed_quantity(squared, rule):
     """Apply a billing rule to an exact squared total. Source quantities are never rounded."""
     exact = Decimal(squared.numerator) / Decimal(squared.denominator)
+    if exact < 0:
+        raise ValueError(f"billed quantity {exact} cannot be negative")
     if rule["method"] == "exact_whole":
         if squared.denominator != 1:
             raise ValueError(f"count {exact} is not a whole number")
         return exact
     places = Decimal(1).scaleb(-rule["decimals"])
-    billed = exact.quantize(places, rounding=ROUND_HALF_UP)
+    if rule["method"] not in {"ceil", "half_up"}:
+        raise ValueError(f"unknown billing rounding method {rule['method']!r}")
+    rounding = ROUND_CEILING if rule["method"] == "ceil" else ROUND_HALF_UP
+    billed = exact.quantize(places, rounding=rounding)
     if rule.get("minimum_when_positive") and exact > 0 and billed == 0:
         return Decimal(str(rule["minimum_when_positive"]))
     return billed

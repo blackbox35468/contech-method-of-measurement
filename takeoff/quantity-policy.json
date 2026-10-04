@@ -2,20 +2,20 @@
   "title": "Take-off quantity policy (ContechCost house policy, non-canonical)",
   "canonical": false,
   "cmm_edition": "1.0",
-  "status": "PROPOSED, awaiting owner approval. CMM Edition 1.0 states no rounding rule. The principle (source precision kept, rounding only at billing) is agreed; the default rule below (whole units, half up, minimum 1 for any positive quantity) is not yet approved.",
+  "status": "Owner-selected draft policy, 2026-10-04. CMM Edition 1.0 states no rounding rule. Keep source and squared quantities exact; round the final positive net billed quantity up to two decimal places. ContechCost app adoption remains separate.",
   "precision": {
     "source_measurements": "Keep the precision the source supplied. Do not round when staging.",
     "squared_totals": "Exact; never rounded.",
     "billed_quantities": "Rounded for BOQ presentation or billing only, by the rule below."
   },
   "billing": {
-    "default": {"method": "half_up", "decimals": 0, "minimum_when_positive": 1},
+    "default": {"method": "ceil", "decimals": 2},
     "unit_kinds": {
       "count": {"method": "exact_whole"},
       "lump sum": {"method": "exact_whole"}
     },
     "units": {
-      "t": {"method": "half_up", "decimals": 2}
+      "t": {"method": "ceil", "decimals": 2}
     },
     "items": {}
   }

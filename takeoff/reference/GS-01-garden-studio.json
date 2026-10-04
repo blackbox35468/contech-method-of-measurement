@@ -62,7 +62,7 @@
             {"times": [], "dims": [19.24], "from_calc": ["WC1"]}
           ],
           "squared": "19.24",
-          "billed": "19"
+          "billed": "19.24"
         },
         {
           "id": "E2",
@@ -75,7 +75,7 @@
             {"times": [], "dims": [19.24, 0.60, 0.60], "from_calc": ["WC1", null, null]}
           ],
           "squared": "6.9264",
-          "billed": "7"
+          "billed": "6.93"
         },
         {
           "id": "E3",
@@ -96,7 +96,7 @@
             {"times": [], "dims": [19.24, 0.19, 0.30], "from_calc": ["WC1", null, null], "deduct": true, "note": "Ddt block wall below ground"}
           ],
           "squared": "2.36652",
-          "billed": "2"
+          "billed": "2.37"
         }
       ]
     },
@@ -122,7 +122,7 @@
             {"times": [], "dims": [19.24, 0.60, 0.30], "from_calc": ["WC1", null, null]}
           ],
           "squared": "3.4632",
-          "billed": "3"
+          "billed": "3.47"
         },
         {
           "id": "E5",
@@ -133,7 +133,7 @@
           },
           "anded_with": "E1",
           "squared": "19.24",
-          "billed": "19"
+          "billed": "19.24"
         }
       ]
     },
@@ -159,7 +159,7 @@
             {"times": [], "dims": [5.62, 3.62], "from_calc": ["WC2", "WC3"]}
           ],
           "squared": "20.3444",
-          "billed": "20"
+          "billed": "20.35"
         },
         {
           "id": "E7",
@@ -171,7 +171,7 @@
           },
           "anded_with": "E6",
           "squared": "20.3444",
-          "billed": "20"
+          "billed": "20.35"
         },
         {
           "id": "E8",
@@ -183,7 +183,7 @@
           },
           "anded_with": "E6",
           "squared": "20.3444",
-          "billed": "20"
+          "billed": "20.35"
         },
         {
           "id": "E9",
@@ -202,7 +202,7 @@
             {"times": [], "dims": [5.62, 3.62, 0.10], "from_calc": ["WC2", "WC3", null]}
           ],
           "squared": "2.03444",
-          "billed": "2"
+          "billed": "2.04"
         },
         {
           "id": "E10",
@@ -213,7 +213,7 @@
           },
           "anded_with": "E6",
           "squared": "20.3444",
-          "billed": "20"
+          "billed": "20.35"
         }
       ]
     },
@@ -249,7 +249,7 @@
             {"times": ["2", "2"], "dims": [1.80, 0.19], "note": "Add window heads and sills"}
           ],
           "squared": "51.8348",
-          "billed": "52"
+          "billed": "51.84"
         },
         {
           "id": "E12",
@@ -280,7 +280,7 @@
             {"times": ["2"], "dims": [2.10], "from_calc": ["WC6"], "note": "Windows"}
           ],
           "squared": "5.42",
-          "billed": "5"
+          "billed": "5.42"
         },
         {
           "id": "E14",
@@ -296,7 +296,7 @@
             {"times": [], "dims": [0.92], "deduct": true, "note": "Ddt door opening"}
           ],
           "squared": "18.32",
-          "billed": "18"
+          "billed": "18.32"
         }
       ]
     }

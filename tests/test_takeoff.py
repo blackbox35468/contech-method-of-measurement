@@ -63,16 +63,29 @@ class QuantityPolicyTests(unittest.TestCase):
 
     def test_billed_rounding(self):
         cases = [
-            ("0.4", "10.F.2", "m3", "volume", "1"),
-            ("2.5", "10.F.2", "m3", "volume", "3"),
-            ("2.49", "10.B.1", "m", "length", "2"),
-            ("1.8076", "31.B.1", "m", "length", "2"),
+            ("0.4", "10.F.2", "m3", "volume", "0.40"),
+            ("0.0001", "10.F.2", "m3", "volume", "0.01"),
+            ("2.5", "10.F.2", "m3", "volume", "2.50"),
+            ("2.49", "10.B.1", "m", "length", "2.49"),
+            ("1.8000", "31.B.1", "m", "length", "1.80"),
+            ("1.8001", "31.B.1", "m", "length", "1.81"),
+            ("1.8076", "31.B.1", "m", "length", "1.81"),
             ("1.005", "13.A.1", "t", "mass", "1.01"),
             ("3", "14.F.3", "nr", "count", "3"),
         ]
         for squared, code, unit, kind, billed in cases:
             with self.subTest(squared=squared, unit=unit):
                 self.assertEqual(billed_quantity(Fraction(Decimal(squared)), self.rule(code, unit, kind)), Decimal(billed))
+
+    def test_rounds_the_final_net_once_after_deductions(self):
+        rows = [
+            {"times": [], "dims": ["1.8076"]},
+            {"times": [], "dims": ["0.004"]},
+            {"times": [], "dims": ["0.001"], "deduct": True},
+        ]
+        exact = sum((square_row(row) for row in rows), Fraction(0))
+        self.assertEqual(exact, Fraction(Decimal("1.8106")))
+        self.assertEqual(billed_quantity(exact, self.rule("31.B.1", "m", "length")), Decimal("1.82"))
 
     def test_counts_are_never_rounded(self):
         with self.assertRaises(ValueError):
@@ -143,7 +156,7 @@ class ReferenceCheckerTests(unittest.TestCase):
         document = copy.deepcopy(REFERENCES["GS-01"])
         excavation = self.entry(document, "E1")
         excavation["rows"] = [{"times": [], "dims": [19.24, 0.60, 0.60]}]
-        excavation["squared"], excavation["billed"] = "6.9264", "7"
+        excavation["squared"], excavation["billed"] = "6.9264", "6.93"
         self.assertTrue(any("3 dimension(s) for a m item" in e for e in self.run_checker(document)))
 
     def test_wrong_square_is_rejected(self):
@@ -212,7 +225,7 @@ class ReferenceCheckerTests(unittest.TestCase):
         document = copy.deepcopy(REFERENCES["CW-01"])
         lintel = self.entry(document, "E5")
         lintel["rows"] = [{"times": [], "dims": [1.4985]}, {"times": [], "dims": [0.8992]}]
-        lintel["squared"], lintel["billed"] = "2.3977", "2"
+        lintel["squared"], lintel["billed"] = "2.3977", "2.40"
         self.assertTrue(any("more than 2 decimals" in e for e in self.run_checker(document)))
         for row in lintel["rows"]:
             row["precision_source"] = "scaled"

@@ -28,16 +28,16 @@ plain references as advisory and enforces only what `coverage-guidance.json` sta
 Gaps (where CMM 1.0 is silent) are candidates for a later CMM edition once tests confirm them.
 No CMM 1.1 change is proposed yet.
 
-## Quantity policy (proposed, awaiting owner approval)
+## Quantity policy (owner-selected draft rule)
 
-CMM Edition 1.0 states no rounding rule. `quantity-policy.json` records the proposed ContechCost house policy:
+CMM Edition 1.0 states no rounding rule. `quantity-policy.json` records the owner's selected draft ContechCost house rule. App adoption is separate:
 
 - Source measurements keep the precision the source supplied; nothing is rounded when staging.
 - Squared totals are exact.
-- Billed quantities are rounded for BOQ presentation or billing only. By default that is the
-  nearest whole unit, half up, with any positive quantity under one unit billed as 1. Counts
-  and lump sums must already be whole and are never rounded. Tonnes go to two decimal
-  places. An item can carry its own override.
+- After additions and deductions, round the final positive net billed quantity **up to two
+  decimal places**. For example, 1.8000 m stays 1.80 m and 1.8001 m becomes 1.81 m.
+  Do not round individual dimensions or rows. Counts and lump sums must already be whole
+  and are never rounded. An item can carry its own override.
 
 ## Reference take-offs
 

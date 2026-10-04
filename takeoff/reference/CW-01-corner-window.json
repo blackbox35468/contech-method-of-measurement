@@ -65,7 +65,7 @@
             {"times": [], "dims": [2.40], "from_calc": ["WC1"], "note": "Front plus return from the stamped opening, not the frames (CG-08)"}
           ],
           "squared": "2.4",
-          "billed": "2"
+          "billed": "2.40"
         },
         {
           "id": "E3",
@@ -76,7 +76,7 @@
           },
           "anded_with": "E2",
           "squared": "2.4",
-          "billed": "2"
+          "billed": "2.40"
         }
       ]
     },
@@ -111,7 +111,7 @@
             {"times": [], "dims": [1.05], "from_calc": ["WC3"], "note": "Return leg"}
           ],
           "squared": "2.7",
-          "billed": "3"
+          "billed": "2.70"
         },
         {
           "id": "E6",
@@ -141,7 +141,7 @@
             {"times": ["2"], "dims": [1.20, 0.11], "note": "Add one outer jamb on each face; no jamb at the corner"}
           ],
           "squared": "16.812",
-          "billed": "17"
+          "billed": "16.82"
         }
       ]
     }

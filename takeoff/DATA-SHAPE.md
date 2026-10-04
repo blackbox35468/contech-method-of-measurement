@@ -15,8 +15,9 @@ this is only the shape.
 2. **Legacy numeric compatibility.** Existing staged rows, BOQ link triggers, workbook files and
    API clients use plain numbers. Decide whether the API returns strings, numbers or both, and
    how older clients read new rows.
-3. **Billing rule.** `quantity-policy.json` is a proposal. The default (whole units, half up,
-   minimum 1 for any positive quantity) needs owner approval.
+3. **Billing rule.** The owner selected rounding the final positive net billed quantity up
+   to two decimal places on 2026-10-04. `quantity-policy.json` records that draft rule.
+   Confirm its app and contract treatment before changing issued BOQ behaviour.
 
 ## 1. Staged quantity
 
