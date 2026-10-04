@@ -1,0 +1,22 @@
+{
+  "title": "Take-off quantity policy (ContechCost house policy, non-canonical)",
+  "canonical": false,
+  "cmm_edition": "1.0",
+  "status": "CMM Edition 1.0 states no rounding rule. This policy applies until a CMM edition or an item states one.",
+  "precision": {
+    "source_measurements": "Keep the precision the source supplied. Do not round when staging.",
+    "squared_totals": "Exact; never rounded.",
+    "billed_quantities": "Rounded for BOQ presentation or billing only, by the rule below."
+  },
+  "billing": {
+    "default": {"method": "half_up", "decimals": 0, "minimum_when_positive": 1},
+    "unit_kinds": {
+      "count": {"method": "exact_whole"},
+      "lump sum": {"method": "exact_whole"}
+    },
+    "units": {
+      "t": {"method": "half_up", "decimals": 2}
+    },
+    "items": {}
+  }
+}

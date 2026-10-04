@@ -1,0 +1,144 @@
+{
+  "titles": {
+    "project": "CW-01 Coupled corner window (reference take-off)",
+    "purpose": "Fixed test job for CMM take-off. Anonymised from a real job's coupled corner window, with changed dimensions; no project details are carried over. Automated take-off routes must reproduce these quantities.",
+    "drawings": [
+      {"number": "CW-01-A-201", "title": "North and east elevations", "revision": "A"},
+      {"number": "CW-01-A-501", "title": "Corner window head and sill details", "revision": "A"}
+    ],
+    "drawing_facts": [
+      "One coupled corner window at the junction of the north and east elevations, supplied as one assembly.",
+      "Stamped structural opening: 1500 front (north) plus 900 return (east), 1200 high. Window frames: 1450 x 1150 front, 850 x 1150 return.",
+      "Scaled from the drawing: 1.4985 m plus 0.8992 m = 2.3977 m. Kept as evidence at full precision; the stamped dimensions govern.",
+      "Brick veneer 110 thick. Brickwork face 4000 long on the north elevation and 3000 long on the east, as drawn, 2700 high.",
+      "Engineer-designed steel corner lintel, 150 bearing at each outer end. Head flashing and sill tray run along both faces and are not supplied with the window."
+    ],
+    "measured_by": "Claude Code",
+    "date": "2026-10-04",
+    "cmm_edition": "1.0",
+    "cmm_canonical_sha256": "88beafdd18fb62f7d5d96a15bb945b7d24c6c7801f2ec9f8358f5ed81fddcc89"
+  },
+  "waste_calcs": [
+    {"id": "WC1", "label": "Corner opening run, front plus return", "expression": "1500 + 900", "result_mm": 2400},
+    {"id": "WC2", "label": "Front lintel, opening plus outer bearing", "expression": "1500 + 150", "result_mm": 1650},
+    {"id": "WC3", "label": "Return lintel, opening plus outer bearing", "expression": "900 + 150", "result_mm": 1050}
+  ],
+  "groups": [
+    {
+      "trade_heading": "31 Windows, Glazed Screens, and Skylights",
+      "signpost": "Ground floor, north-east corner window (A-201, A-501)",
+      "entries": [
+        {
+          "id": "E1",
+          "cmm_code": "31.A.1",
+          "description": "Coupled corner window, aluminium, fixed and awning, one assembly with front and return frames",
+          "particulars": {
+            "sec.31.req.frame_material": "aluminium",
+            "sec.31.req.window_operation": "fixed front; awning return",
+            "sec.31.req.unit_size": "coupled corner unit: front frame 1450 x 1150, return frame 850 x 1150",
+            "sec.31.req.glass_makeup": "6.38 laminated",
+            "sec.31.req.frame_finish": "powder coat",
+            "sec.31.req.acoustic_rating": "none required",
+            "sec.31.req.thermal_performance": "none stated",
+            "sec.31.req.bushfire_attack_level": "not applicable"
+          },
+          "rows": [
+            {"times": ["1"], "dims": [], "note": "One coupled assembly, not two windows (CG-07)"}
+          ],
+          "squared": "1",
+          "billed": "1"
+        },
+        {
+          "id": "E2",
+          "cmm_code": "31.B.1",
+          "description": "Head flashing over coupled corner window, one run along both faces",
+          "particulars": {
+            "sec.31.req.detail_kind": "head flashing"
+          },
+          "rows": [
+            {"times": [], "dims": [2.40], "from_calc": ["WC1"], "note": "Front plus return from the stamped opening, not the frames (CG-08)"}
+          ],
+          "squared": "2.4",
+          "billed": "2"
+        },
+        {
+          "id": "E3",
+          "cmm_code": "31.B.1",
+          "description": "Sill tray under coupled corner window, one run along both faces",
+          "particulars": {
+            "sec.31.req.detail_kind": "sill tray"
+          },
+          "anded_with": "E2",
+          "squared": "2.4",
+          "billed": "2"
+        }
+      ]
+    },
+    {
+      "trade_heading": "14 Masonry / 22 Structural Metalwork",
+      "signpost": "Ground floor, north and east elevations at the corner window (A-201)",
+      "entries": [
+        {
+          "id": "E4",
+          "cmm_code": "14.F.3",
+          "description": "Forming one corner opening in brick veneer as the work proceeds",
+          "particulars": {
+            "sec.14.req.opening_size": "corner opening 1500 front plus 900 return, 1200 high"
+          },
+          "rows": [
+            {"times": ["1"], "dims": [], "note": "One opening turning the corner"}
+          ],
+          "squared": "1",
+          "billed": "1"
+        },
+        {
+          "id": "E5",
+          "cmm_code": "22.C.1",
+          "description": "Steel corner lintel to engineer's design, measured along both legs including outer bearings",
+          "particulars": {
+            "sec.22.req.structural_steel_grade": "300",
+            "sec.22.req.section_designation": "150 x 90 x 8 UA, welded corner",
+            "sec.22.req.section_family": "unequal angle"
+          },
+          "rows": [
+            {"times": [], "dims": [1.65], "from_calc": ["WC2"], "note": "Front leg"},
+            {"times": [], "dims": [1.05], "from_calc": ["WC3"], "note": "Return leg"}
+          ],
+          "squared": "2.7",
+          "billed": "3"
+        },
+        {
+          "id": "E6",
+          "cmm_code": "14.A.1",
+          "description": "Brick veneer 110 thick, measured on face, corner opening deducted on both elevations, reveals added",
+          "particulars": {
+            "sec.14.req.masonry_unit": "clay face brick 230 x 110 x 76",
+            "sec.14.req.unit_quality": "face brick, as selected",
+            "sec.14.req.leaf_thickness": "110 mm",
+            "sec.14.req.bond": "stretcher bond",
+            "sec.14.req.mortar_mix": "M3",
+            "sec.14.req.joint_profile": "ironed",
+            "sec.14.req.joint_thickness": "10 mm",
+            "sec.14.req.faces_finished": "external face",
+            "sec.14.req.wall_location": "external veneer",
+            "sec.14.req.fire_resistance": "none required",
+            "sec.14.req.acoustic_rating": "none required",
+            "cmm.location.level": "ground floor"
+          },
+          "rows": [
+            {"times": [], "dims": [4.00, 2.70], "note": "North elevation"},
+            {"times": [], "dims": [1.50, 1.20], "deduct": true, "note": "Ddt front of corner opening"},
+            {"times": [], "dims": [3.00, 2.70], "note": "East elevation"},
+            {"times": [], "dims": [0.90, 1.20], "deduct": true, "note": "Ddt return of corner opening"},
+            {"times": ["2"], "dims": [1.50, 0.11], "note": "Add front head and sill reveals"},
+            {"times": ["2"], "dims": [0.90, 0.11], "note": "Add return head and sill reveals"},
+            {"times": ["2"], "dims": [1.20, 0.11], "note": "Add one outer jamb on each face; no jamb at the corner"}
+          ],
+          "squared": "16.812",
+          "billed": "17"
+        }
+      ]
+    }
+  ],
+  "not_required": {}
+}

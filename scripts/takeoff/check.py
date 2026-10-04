@@ -1,33 +1,37 @@
-"""Check the take-off sidecar and every reference take-off against CMM Edition 1.0.
+"""Check the take-off aids and every reference take-off against CMM Edition 1.0.
 
     python3 scripts/takeoff/check.py
 
 A reference take-off passes only when every quantity re-squares exactly from
 its dimension rows, each row carries the number of dimensions its CMM unit
-allows, every item particular is stated, and every piece of work an item
-sends elsewhere is either measured in the take-off or recorded as not
-required with a reason.
+allows, every item particular is stated, billed figures follow the quantity
+policy, and every coverage-guidance prompt it triggers is either measured or
+recorded as not required. Other exclusion references are reported as advisory.
 """
 
 import ast
-import json
 import operator
 import sys
 from decimal import Decimal
 from fractions import Fraction
 
-import build_basis
+import build_refs
 from takeoff_lib import (
     DIMS_PER_KIND,
+    GUIDANCE,
+    POLICY,
     REFERENCE_DIR,
     billed_quantity,
     items_by_code,
+    load_json,
     load_release,
+    rounding_rule,
     square_row,
     unit_kinds,
 )
 
 OPERATORS = {ast.Add: operator.add, ast.Sub: operator.sub, ast.Mult: operator.mul, ast.Div: operator.truediv}
+RELATIONS = {"companion_if", "one_of", "counting", "measuring"}
 
 
 def evaluate(expression):
@@ -45,13 +49,55 @@ def evaluate(expression):
     return walk(ast.parse(expression, mode="eval"))
 
 
-def parameter_ids(item):
-    return set(item["parameter_ids"])
+def reference_id(doc):
+    return doc["titles"]["project"].split()[0]
 
 
-def check_reference(path, release, digest, basis_by_code):
+def entries_of(doc):
+    return {entry["id"]: entry for group in doc["groups"] for entry in group["entries"]}
+
+
+def check_guidance(guidance, release, digest, references):
+    """Every guidance entry must cite real CMM wording (or declare a gap) and real evidence."""
     errors = []
-    doc = json.loads(path.read_text())
+    items = items_by_code(release)
+    if guidance.get("cmm_canonical_sha256") != digest:
+        errors.append("coverage guidance is not pinned to this CMM release")
+    seen = set()
+    for entry in guidance["guidance"]:
+        gid = entry["id"]
+        if gid in seen:
+            errors.append(f"{gid}: duplicate id")
+        seen.add(gid)
+        if entry["relation"] not in RELATIONS:
+            errors.append(f"{gid}: unknown relation {entry['relation']}")
+        for code in entry["when_measured"] + entry["consider"]:
+            if code not in items:
+                errors.append(f"{gid}: {code} is not a CMM item")
+        if entry["relation"] in ("companion_if", "one_of") and not entry["consider"]:
+            errors.append(f"{gid}: {entry['relation']} needs items to consider")
+        source = entry.get("cmm_source")
+        if source:
+            if source["quote"] not in items.get(source["item"], {}).get("excluded", ""):
+                errors.append(f"{gid}: quote not found in the exclusions of {source['item']}")
+        elif not entry.get("gap"):
+            errors.append(f"{gid}: give a cmm_source quote or state the gap")
+        if not entry.get("evidence"):
+            errors.append(f"{gid}: no evidence")
+        for evidence in entry.get("evidence", []):
+            doc = references.get(evidence["reference"])
+            if doc is None:
+                errors.append(f"{gid}: evidence names unknown reference {evidence['reference']}")
+            elif "entry" in evidence and evidence["entry"] not in entries_of(doc):
+                errors.append(f"{gid}: evidence names unknown entry {evidence['reference']} {evidence['entry']}")
+            elif "not_required" in evidence and evidence["not_required"] not in doc.get("not_required", {}):
+                errors.append(f"{gid}: evidence names a missing not_required record in {evidence['reference']}")
+    return errors
+
+
+def check_reference(doc, release, digest, refs_by_code, guidance, policy):
+    """Return (errors, advisory notes) for one reference take-off."""
+    errors, notes = [], []
     items = items_by_code(release)
     kinds = unit_kinds(release)
     titles = doc["titles"]
@@ -71,15 +117,12 @@ def check_reference(path, release, digest, basis_by_code):
             errors.append(f"{calc['id']}: {calc['expression']} = {value}, not {calc['result_mm']}")
         calcs[calc["id"]] = Fraction(calc["result_mm"], 1000)
 
-    entries = {}
     for group in doc["groups"]:
         for key in ("trade_heading", "signpost"):
             if not group.get(key):
                 errors.append(f"group is missing {key}")
-        for entry in group["entries"]:
-            entries[entry["id"]] = entry
+    entries = entries_of(doc)
 
-    squared_by_id = {}
     for entry_id, entry in entries.items():
         where = f"{entry_id} {entry['cmm_code']}"
         item = items.get(entry["cmm_code"])
@@ -93,10 +136,11 @@ def check_reference(path, release, digest, basis_by_code):
         if not entry.get("description"):
             errors.append(f"{where}: description is missing")
 
-        stated = set(entry.get("particulars", {}))
-        missing = sorted(parameter_ids(item) - stated)
-        unknown = sorted(stated - parameter_ids(item))
-        blank = sorted(k for k, v in entry.get("particulars", {}).items() if not str(v).strip())
+        particulars = entry.get("particulars", {})
+        required = set(item["parameter_ids"])
+        missing = sorted(required - set(particulars))
+        unknown = sorted(set(particulars) - required)
+        blank = sorted(key for key, value in particulars.items() if not str(value).strip())
         if missing:
             errors.append(f"{where}: particulars not stated: {', '.join(missing)}")
         if unknown:
@@ -146,59 +190,91 @@ def check_reference(path, release, digest, basis_by_code):
 
         if squared != Fraction(Decimal(entry["squared"])):
             errors.append(f"{where}: squares to {float(squared)}, not {entry['squared']}")
-        billed = billed_quantity(squared, unit)
+        try:
+            billed = billed_quantity(squared, rounding_rule(policy, entry["cmm_code"], unit, kind))
+        except ValueError as error:
+            errors.append(f"{where}: {error}")
+            continue
         if billed != Decimal(entry["billed"]):
-            errors.append(f"{where}: billed quantity under the rounding policy is {billed}, not {entry['billed']}")
-        squared_by_id[entry_id] = squared
+            errors.append(f"{where}: billed quantity under the quantity policy is {billed}, not {entry['billed']}")
 
     measured = {entry["cmm_code"] for entry in entries.values()}
-    measured_sections = {code.split(".")[0] for code in measured}
     not_required = doc.get("not_required", {})
+    guidance_ids = {g["id"] for g in guidance["guidance"]}
+    prompted = set()
+    for rule in guidance["guidance"]:
+        if not measured.intersection(rule["when_measured"]):
+            continue
+        if rule["relation"] == "companion_if":
+            for code in rule["consider"]:
+                prompted.add(code)
+                if code not in measured and not str(not_required.get(code, "")).strip():
+                    errors.append(f"coverage {rule['id']}: measure {code} or record why it is not required ({rule['condition']})")
+        elif rule["relation"] == "one_of":
+            prompted.update(rule["consider"])
+            if not measured.intersection(rule["consider"]) and not str(not_required.get(rule["id"], "")).strip():
+                errors.append(f"coverage {rule['id']}: measure one of {', '.join(rule['consider'])} or record why none is required under {rule['id']}")
+
     for code in sorted(measured):
-        basis = basis_by_code[code]
-        for other in basis["measured_elsewhere"]:
-            if other not in measured and not str(not_required.get(other, "")).strip():
-                errors.append(f"coverage: {code} sends work to {other}; measure it or record why it is not required")
-        for section in basis["measured_elsewhere_sections"]:
-            key = f"section:{section}"
-            if section not in measured_sections and not str(not_required.get(key, "")).strip():
-                errors.append(f"coverage: {code} sends work to section {section}; measure it or record {key}")
+        for ref in refs_by_code[code]["exclusion_refs"]:
+            for other in ref["items"]:
+                if other not in measured and other not in prompted and other not in not_required:
+                    notes.append(f"{code} -> {other}: {ref['source']}")
+
     for key in not_required:
-        target = key.split(":", 1)[1] if key.startswith("section:") else key
-        if key.startswith("section:") and target in measured_sections:
-            errors.append(f"not_required lists {key}, but that section is measured")
-        if not key.startswith("section:") and (target in measured or target not in items):
-            errors.append(f"not_required lists {key}, which is measured or is not a CMM item")
+        if key in guidance_ids or key.startswith("section:"):
+            continue
+        if key in measured or key not in items:
+            errors.append(f"not_required lists {key}, which is measured or is not a CMM item or guidance id")
 
-    return errors, squared_by_id
+    return errors, notes
 
 
-def main():
+def main(argv):
+    verbose = "-v" in argv
     failures = 0
-    expected = build_basis.render(build_basis.build())
-    if not build_basis.SIDECAR.exists() or build_basis.SIDECAR.read_text() != expected:
-        print("FAIL takeoff basis: stale; run scripts/takeoff/build_basis.py")
+    expected = build_refs.render(build_refs.build())
+    if not build_refs.EXCLUSION_REFS.exists() or build_refs.EXCLUSION_REFS.read_text() != expected:
+        print("FAIL exclusion refs: stale; run scripts/takeoff/build_refs.py")
         failures += 1
     else:
-        print("ok   takeoff basis matches the CMM release")
+        print("ok   exclusion refs match the CMM release")
 
     release, digest = load_release()
-    basis_by_code = {entry["code"]: entry for entry in json.loads(expected)["items"]}
-    references = sorted(REFERENCE_DIR.glob("*.json"))
+    refs_by_code = {record["code"]: record for record in load_json(build_refs.EXCLUSION_REFS)["items"]}
+    guidance = load_json(GUIDANCE)
+    policy = load_json(POLICY)
+    references = {}
+    for path in sorted(REFERENCE_DIR.glob("*.json")):
+        doc = load_json(path)
+        references[reference_id(doc)] = (path, doc)
     if not references:
         print("FAIL no reference take-offs found")
         failures += 1
-    for path in references:
-        errors, _ = check_reference(path, release, digest, basis_by_code)
+
+    guidance_errors = check_guidance(guidance, release, digest, {key: doc for key, (_, doc) in references.items()})
+    if guidance_errors:
+        failures += 1
+        print("FAIL coverage guidance")
+        for error in guidance_errors:
+            print(f"     {error}")
+    else:
+        print(f"ok   coverage guidance ({len(guidance['guidance'])} entries)")
+
+    for key, (path, doc) in references.items():
+        errors, notes = check_reference(doc, release, digest, refs_by_code, guidance, policy)
         if errors:
             failures += 1
             print(f"FAIL {path.name}")
             for error in errors:
                 print(f"     {error}")
         else:
-            print(f"ok   {path.name}")
+            print(f"ok   {path.name} ({len(notes)} advisory exclusion refs; -v to list)")
+        if verbose:
+            for note in notes:
+                print(f"     advisory {note}")
     return 1 if failures else 0
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    sys.exit(main(sys.argv[1:]))

@@ -54,7 +54,7 @@ Always retain the edition and canonical checksum with any copied or transformed 
 
 ## Take-off aids
 
-The `takeoff/` folder holds non-canonical aids for take-off software: a measurement basis and related-work list for every item, generated from the release, and reference take-offs that automated take-off must reproduce. They do not change the released standard. See [`takeoff/README.md`](takeoff/README.md).
+The `takeoff/` folder holds non-canonical aids for take-off software: the related-work references in each item's exclusions, a small evidence-based coverage guide, a quantity policy, and reference take-offs that automated take-off must reproduce. They do not change the released standard. See [`takeoff/README.md`](takeoff/README.md).
 
 ## Licence and attribution
 

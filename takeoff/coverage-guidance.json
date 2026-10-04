@@ -1,0 +1,89 @@
+{
+  "title": "CMM take-off coverage guidance (non-canonical)",
+  "canonical": false,
+  "cmm_edition": "1.0",
+  "cmm_canonical_sha256": "88beafdd18fb62f7d5d96a15bb945b7d24c6c7801f2ec9f8358f5ed81fddcc89",
+  "notice": "Conditional prompts for related work, added only where a reference take-off shows the need. Each entry quotes the CMM wording it relies on, or is marked as a gap where CMM 1.0 is silent. The release controls. Gaps are candidates for a later CMM edition once tests confirm them.",
+  "relations": {
+    "companion_if": "When the trigger item is measured, measure each listed item or record why it is not required.",
+    "one_of": "When the trigger item is measured, measure one of the listed alternatives or record, under this guidance id, why none is required.",
+    "counting": "How to count the trigger item. Advisory; shown by the evidence entries.",
+    "measuring": "How to measure the trigger item. Advisory; shown by the evidence entries."
+  },
+  "guidance": [
+    {
+      "id": "CG-01",
+      "when_measured": ["10.B.1"],
+      "relation": "companion_if",
+      "consider": ["10.F.2"],
+      "condition": "Excavated material leaves site. If it is reused on site, record that instead (handling at 10.F.1, backfill at 10.D.2).",
+      "cmm_source": {"item": "10.B.1", "quote": "Disposal, measured at 10.F.2."},
+      "evidence": [{"reference": "GS-01", "entry": "E2"}]
+    },
+    {
+      "id": "CG-02",
+      "when_measured": ["10.B.1"],
+      "relation": "companion_if",
+      "consider": ["10.D.2"],
+      "condition": "The trench is wider or deeper than the footing and wall placed in it.",
+      "cmm_source": {"item": "10.B.1", "quote": "Backfill around the completed foundation, measured at 10.D.2."},
+      "evidence": [{"reference": "GS-01", "entry": "E3"}]
+    },
+    {
+      "id": "CG-03",
+      "when_measured": ["10.B.1"],
+      "relation": "one_of",
+      "consider": ["10.C.1", "10.C.2"],
+      "condition": "The excavated face needs support: removed afterwards (10.C.1) or left in place (10.C.2).",
+      "cmm_source": {"item": "10.B.1", "quote": "Support to the face, measured at 10.C.1."},
+      "evidence": [{"reference": "GS-01", "not_required": "CG-03"}]
+    },
+    {
+      "id": "CG-04",
+      "when_measured": ["14.A.1", "14.A.2"],
+      "relation": "companion_if",
+      "consider": ["14.F.3"],
+      "condition": "The wall has openings formed as the work proceeds.",
+      "cmm_source": {"item": "14.A.2", "quote": "Forming the opening, counted at 14.F.3."},
+      "evidence": [{"reference": "GS-01", "entry": "E12"}, {"reference": "CW-01", "entry": "E4"}]
+    },
+    {
+      "id": "CG-05",
+      "when_measured": ["14.F.3"],
+      "relation": "one_of",
+      "consider": ["14.C.1", "20.B.1", "22.C.1"],
+      "condition": "The opening carries masonry or load over it. Use the item for the lintel actually specified: built-in masonry lintel (14.C.1), timber (20.B.1) or engineer-designed steel (22.C.1).",
+      "cmm_source": {"item": "31.A.1", "quote": "Lintels over the opening, measured at 14.C.1, 20.B.1 or 22.C.1."},
+      "evidence": [{"reference": "GS-01", "entry": "E13"}, {"reference": "CW-01", "entry": "E5"}]
+    },
+    {
+      "id": "CG-06",
+      "when_measured": ["31.A.1"],
+      "relation": "companion_if",
+      "consider": ["31.B.1"],
+      "condition": "A head flashing, sill tray, jamb flashing or perimeter seal is required and is not supplied as part of the unit.",
+      "cmm_source": {"item": "31.A.1", "quote": "Perimeter seals and flashings, measured at 31.B.1."},
+      "evidence": [{"reference": "CW-01", "entry": "E2"}, {"reference": "CW-01", "entry": "E3"}]
+    },
+    {
+      "id": "CG-07",
+      "when_measured": ["31.A.1"],
+      "relation": "counting",
+      "consider": [],
+      "condition": "A coupled corner window supplied as one assembly is one unit. State both face sizes in the unit size. Do not count the front and the return as two windows, or price two complete repairs or replacements for one assembly.",
+      "cmm_source": null,
+      "gap": "CMM 1.0 does not say how to count a coupled or corner assembly.",
+      "evidence": [{"reference": "CW-01", "entry": "E1"}]
+    },
+    {
+      "id": "CG-08",
+      "when_measured": ["31.B.1", "14.F.3"],
+      "relation": "measuring",
+      "consider": [],
+      "condition": "At a corner window, measure a head or sill run once along both faces (front opening plus return), from the structural opening sizes. Do not take the window frame size for the opening size: 31.A.1 states the overall frame size, while opening, flashing and wall-deduction dimensions come from the opening. Keep scaled cross-checks at their full precision as evidence; the stamped dimensions govern.",
+      "cmm_source": null,
+      "gap": "CMM 1.0 does not say how a perimeter run is measured around a corner opening.",
+      "evidence": [{"reference": "CW-01", "entry": "E2"}, {"reference": "CW-01", "entry": "E4"}]
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-"""Shared helpers for the CMM take-off sidecar and reference take-offs.
+"""Shared helpers for the CMM take-off aids and reference take-offs.
 
 Everything here reads the published CMM release and never writes to it.
 """
@@ -13,15 +13,17 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parents[2]
 RELEASE = REPO / "release" / "CMM-1.0.json"
 MANIFEST = REPO / "release" / "release-manifest.json"
-SIDECAR = REPO / "takeoff" / "CMM-1.0-takeoff-basis.json"
-REFERENCE_DIR = REPO / "takeoff" / "reference"
+TAKEOFF = REPO / "takeoff"
+EXCLUSION_REFS = TAKEOFF / "CMM-1.0-exclusion-refs.json"
+GUIDANCE = TAKEOFF / "coverage-guidance.json"
+POLICY = TAKEOFF / "quantity-policy.json"
+REFERENCE_DIR = TAKEOFF / "reference"
 
 ITEM_CODE = re.compile(r"\b(\d{2}\.[A-Z]\.\d+)\b")
 SECTION_REF = re.compile(r"\bsections? (\d{2}(?:(?:, | and )\d{2})*)")
 
-# How many dimensions one row carries for each unit kind. Anything else
-# (thickness, width, depth) is stated in the description, not measured
-# (cmm.general.02).
+# How many dimensions one row carries for each unit kind. Other sizes
+# (thickness, width, depth) are stated in the description (cmm.general.02).
 DIMS_PER_KIND = {"count": 0, "length": 1, "area": 2, "volume": 3}
 
 
@@ -29,9 +31,13 @@ def sha256(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def load_json(path):
+    return json.loads(path.read_text())
+
+
 def load_release():
-    release = json.loads(RELEASE.read_text())
-    manifest = json.loads(MANIFEST.read_text())
+    release = load_json(RELEASE)
+    manifest = load_json(MANIFEST)
     digest = sha256(RELEASE)
     if digest != manifest["canonical_sha256"]:
         raise SystemExit(f"CMM release checksum {digest} does not match the manifest")
@@ -52,7 +58,7 @@ def unit_kinds(release):
 
 
 def refs_in(text):
-    """Item codes and section codes that a piece of CMM text sends work to."""
+    """Item codes and section codes named in a piece of CMM text."""
     codes = sorted(set(ITEM_CODE.findall(text or "")))
     sections = set()
     for match in SECTION_REF.findall(text or ""):
@@ -78,21 +84,26 @@ def square_row(row):
     return -value if row.get("deduct") else value
 
 
-def billed_quantity(squared, unit):
-    """Round a squared total for BOQ presentation (takeoff/README.md, rounding policy).
+def rounding_rule(policy, code, unit, kind):
+    """The billing rule for one item: item override, then unit, then unit kind, then default."""
+    rules = policy["billing"]
+    return (
+        rules["items"].get(code)
+        or rules["units"].get(unit)
+        or rules["unit_kinds"].get(kind)
+        or rules["default"]
+    )
 
-    Staged and squared quantities stay exact; only the billed figure is rounded.
-    """
+
+def billed_quantity(squared, rule):
+    """Apply a billing rule to an exact squared total. Source quantities are never rounded."""
     exact = Decimal(squared.numerator) / Decimal(squared.denominator)
-    if unit == "t":
-        return exact.quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
-    whole = exact.quantize(Decimal("1"), rounding=ROUND_HALF_UP)
-    if exact > 0 and whole == 0:
-        return Decimal("1")
-    return whole
-
-
-def fraction_text(value):
-    """Exact decimal text for a squared value (all reference dims are decimals)."""
-    exact = Decimal(value.numerator) / Decimal(value.denominator)
-    return format(exact.normalize(), "f")
+    if rule["method"] == "exact_whole":
+        if squared.denominator != 1:
+            raise ValueError(f"count {exact} is not a whole number")
+        return exact
+    places = Decimal(1).scaleb(-rule["decimals"])
+    billed = exact.quantize(places, rounding=ROUND_HALF_UP)
+    if rule.get("minimum_when_positive") and exact > 0 and billed == 0:
+        return Decimal(str(rule["minimum_when_positive"]))
+    return billed
