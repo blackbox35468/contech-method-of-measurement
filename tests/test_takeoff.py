@@ -86,8 +86,9 @@ class QuantityPolicyTests(unittest.TestCase):
     def test_timesing_is_fractions_with_dotting_on(self):
         self.assertEqual(parse_times("1+2"), 3)
         self.assertEqual(parse_times("1/2"), Fraction(1, 2))
-        with self.assertRaises(ValueError):
-            parse_times("0.5")
+        for bad in ("0.5", "-1", "0", "2+-1"):
+            with self.subTest(factor=bad), self.assertRaises(ValueError):
+                parse_times(bad)
 
     def test_deduction_rows_are_negative(self):
         self.assertEqual(square_row({"times": ["2"], "dims": [1.80, 1.20], "deduct": True}), Fraction("-4.32"))
@@ -107,10 +108,18 @@ class GuidanceTests(unittest.TestCase):
         del guidance["guidance"][6]["gap"]
         self.assertTrue(any("cmm_source quote or state the gap" in e for e in check.check_guidance(guidance, RELEASE, DIGEST, REFERENCES)))
 
+    def test_evidence_must_support_the_guidance(self):
+        guidance = copy.deepcopy(GUIDANCE_DOC)
+        cg06 = next(g for g in guidance["guidance"] if g["id"] == "CG-06")
+        cg06["evidence"] = [{"reference": "GS-01", "entry": "E1"}]
+        errors = check.check_guidance(guidance, RELEASE, DIGEST, REFERENCES)
+        self.assertTrue(any("does not measure any trigger item" in e for e in errors), errors)
+        self.assertTrue(any("measures 10.B.1, which this guidance does not cover" in e for e in errors), errors)
+
     def test_evidence_must_exist(self):
         guidance = copy.deepcopy(GUIDANCE_DOC)
         guidance["guidance"][0]["evidence"] = [{"reference": "GS-01", "entry": "E99"}]
-        self.assertTrue(any("unknown entry" in e for e in check.check_guidance(guidance, RELEASE, DIGEST, REFERENCES)))
+        self.assertTrue(any("E99 is not an entry" in e for e in check.check_guidance(guidance, RELEASE, DIGEST, REFERENCES)))
 
 
 class ReferenceCheckerTests(unittest.TestCase):
@@ -173,6 +182,32 @@ class ReferenceCheckerTests(unittest.TestCase):
         document = copy.deepcopy(REFERENCES["CW-01"])
         self.entry(document, "E1")["rows"] = [{"times": ["2"], "dims": []}]
         self.assertTrue(any("squares to 2.0, not 1" in e for e in self.run_checker(document)))
+
+    def test_negative_count_is_rejected(self):
+        document = copy.deepcopy(REFERENCES["CW-01"])
+        window = self.entry(document, "E1")
+        window["rows"] = [{"times": ["-1"], "dims": []}]
+        window["squared"], window["billed"] = "-1", "-1"
+        self.assertTrue(any("must be positive" in e for e in self.run_checker(document)))
+
+    def test_net_negative_total_is_rejected(self):
+        document = copy.deepcopy(REFERENCES["GS-01"])
+        dpc = self.entry(document, "E14")
+        dpc["rows"] = [{"times": [], "dims": [0.50]}, {"times": [], "dims": [0.92], "deduct": True}]
+        dpc["squared"], dpc["billed"] = "-0.42", "0"
+        self.assertTrue(any("total -0.42 must be positive" in e for e in self.run_checker(document)))
+
+    def test_hand_rows_are_limited_to_2dp_but_tool_rows_keep_source_precision(self):
+        document = copy.deepcopy(REFERENCES["CW-01"])
+        lintel = self.entry(document, "E5")
+        lintel["rows"] = [{"times": [], "dims": [1.4985]}, {"times": [], "dims": [0.8992]}]
+        lintel["squared"], lintel["billed"] = "2.3977", "2"
+        self.assertTrue(any("more than 2 decimals" in e for e in self.run_checker(document)))
+        for row in lintel["rows"]:
+            row["precision_source"] = "scaled"
+        self.assertEqual(self.run_checker(document), [])
+        lintel["rows"][0]["precision_source"] = "guessed"
+        self.assertTrue(any("unknown precision_source" in e for e in self.run_checker(document)))
 
     def test_fractional_count_is_rejected(self):
         document = copy.deepcopy(REFERENCES["CW-01"])

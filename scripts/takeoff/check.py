@@ -32,6 +32,9 @@ from takeoff_lib import (
 
 OPERATORS = {ast.Add: operator.add, ast.Sub: operator.sub, ast.Mult: operator.mul, ast.Div: operator.truediv}
 RELATIONS = {"companion_if", "one_of", "counting", "measuring"}
+# Rows without a precision_source are hand dimension paper (metres to 2 dp). Tool-sourced rows
+# name their source, as in takeoff/DATA-SHAPE.md, and keep the precision the source supplied.
+PRECISION_SOURCES = {"stamped", "scaled", "typed", "derived"}
 
 
 def evaluate(expression):
@@ -88,10 +91,25 @@ def check_guidance(guidance, release, digest, references):
             doc = references.get(evidence["reference"])
             if doc is None:
                 errors.append(f"{gid}: evidence names unknown reference {evidence['reference']}")
-            elif "entry" in evidence and evidence["entry"] not in entries_of(doc):
-                errors.append(f"{gid}: evidence names unknown entry {evidence['reference']} {evidence['entry']}")
-            elif "not_required" in evidence and evidence["not_required"] not in doc.get("not_required", {}):
-                errors.append(f"{gid}: evidence names a missing not_required record in {evidence['reference']}")
+                continue
+            measured = {e["cmm_code"] for e in entries_of(doc).values()}
+            where = f"{gid}: evidence {evidence['reference']}"
+            if not measured.intersection(entry["when_measured"]):
+                errors.append(f"{where} does not measure any trigger item ({', '.join(entry['when_measured'])})")
+            if "entry" in evidence:
+                cited = entries_of(doc).get(evidence["entry"])
+                if cited is None:
+                    errors.append(f"{where} {evidence['entry']} is not an entry")
+                elif cited["cmm_code"] not in entry["when_measured"] + entry["consider"]:
+                    errors.append(f"{where} {evidence['entry']} measures {cited['cmm_code']}, which this guidance does not cover")
+            elif "not_required" in evidence:
+                key = evidence["not_required"]
+                if key not in doc.get("not_required", {}):
+                    errors.append(f"{where} has no not_required record {key}")
+                elif key not in [gid] + entry["consider"]:
+                    errors.append(f"{where} cites not_required {key}, which this guidance does not cover")
+            else:
+                errors.append(f"{where} must cite an entry or a not_required record")
     return errors
 
 
@@ -173,9 +191,17 @@ def check_reference(doc, release, digest, refs_by_code, guidance, policy):
                     f"{where} row {number}: {len(dims)} dimension(s) for a {unit} item; "
                     f"CMM measures {unit} with {expected_dims} (state other sizes in the description)"
                 )
+            source = row.get("precision_source")
+            if source is not None and source not in PRECISION_SOURCES:
+                errors.append(f"{where} row {number}: unknown precision_source {source!r}")
             for dim in dims:
-                if Decimal(str(dim)).as_tuple().exponent < -2 or dim <= 0:
-                    errors.append(f"{where} row {number}: dimension {dim} must be positive metres to 2 decimals")
+                if dim <= 0:
+                    errors.append(f"{where} row {number}: dimension {dim} must be positive")
+                elif source is None and Decimal(str(dim)).as_tuple().exponent < -2:
+                    errors.append(
+                        f"{where} row {number}: dimension {dim} has more than 2 decimals; "
+                        "hand dimension paper uses metres to 2 dp, tool rows must state precision_source"
+                    )
             for position, calc_id in enumerate(row.get("from_calc", [])):
                 if calc_id is None:
                     continue
@@ -188,6 +214,8 @@ def check_reference(doc, release, digest, refs_by_code, guidance, policy):
             except ValueError as error:
                 errors.append(f"{where} row {number}: {error}")
 
+        if squared <= 0:
+            errors.append(f"{where}: total {float(squared)} must be positive")
         if squared != Fraction(Decimal(entry["squared"])):
             errors.append(f"{where}: squares to {float(squared)}, not {entry['squared']}")
         try:

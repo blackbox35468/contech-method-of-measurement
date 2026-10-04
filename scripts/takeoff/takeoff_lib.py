@@ -71,7 +71,10 @@ def parse_times(factor):
     factor = str(factor).strip()
     if "." in factor:
         raise ValueError(f"timesing factor {factor!r} uses a decimal; use a fraction")
-    return sum((Fraction(part) for part in factor.split("+")), Fraction(0))
+    parts = [Fraction(part) for part in factor.split("+")]
+    if any(part <= 0 for part in parts):
+        raise ValueError(f"timesing factor {factor!r} must be positive; use a deduction row instead")
+    return sum(parts, Fraction(0))
 
 
 def square_row(row):

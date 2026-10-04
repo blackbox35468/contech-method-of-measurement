@@ -76,6 +76,11 @@ python3 -m unittest discover -s tests
 - a total does not square exactly from its rows;
 - a row has the wrong number of dimensions for its CMM unit (a metre item takes one
   dimension; other sizes go in the description, per general rule 02);
+- a dimension is not positive, or a hand dimension-paper row uses more than 2 decimals (rows
+  from a tool state their `precision_source` and keep the source precision);
+- a timesing factor, or an entry's total, is zero or negative (deductions are explicit rows);
+- a guidance entry's evidence does not measure one of its trigger items, or cites an entry or
+  record for an item the guidance does not cover;
 - a dimension does not match the waste calc it cites;
 - an item parameter is not stated;
 - a billed figure breaks the quantity policy; or
