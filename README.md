@@ -52,6 +52,10 @@ Construction professionals can read the item names and measurement rules directl
 
 Always retain the edition and canonical checksum with any copied or transformed CMM data. Mark changes clearly rather than presenting an adaptation as the unchanged CMM release.
 
+## Take-off aids
+
+The `takeoff/` folder holds non-canonical aids for take-off software: a measurement basis and related-work list for every item, generated from the release, and reference take-offs that automated take-off must reproduce. They do not change the released standard. See [`takeoff/README.md`](takeoff/README.md).
+
 ## Licence and attribution
 
 Contech Method of Measurement (CMM), Edition 1.0, © 2026 BLACKBOX TRADING PTY LTD.

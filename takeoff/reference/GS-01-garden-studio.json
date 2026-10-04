@@ -1,0 +1,322 @@
+{
+  "titles": {
+    "project": "GS-01 Garden studio (reference take-off)",
+    "purpose": "Fixed test job for CMM take-off. Hand-measured to the dimension-paper conventions; automated take-off routes must reproduce these quantities.",
+    "drawings": [
+      {"number": "GS-01-A-101", "title": "Ground floor plan", "revision": "A"},
+      {"number": "GS-01-A-201", "title": "Section and footing detail", "revision": "A"}
+    ],
+    "drawing_facts": [
+      "External wall face 6000 x 4000 mm on plan; 190 mm concrete block single leaf.",
+      "Strip footing 600 wide x 300 deep, centred under the wall, top of footing 300 below existing ground.",
+      "Trench 600 wide x 600 deep from existing ground. Geotechnical note: stable clay, no rock, groundwater not encountered, no support needed.",
+      "Slab on ground 100 thick N25 with SL72 mesh on 0.2 mm membrane on 100 compacted crushed rock, cast within the walls; top of slab 150 above existing ground.",
+      "Wall height 2400 above top of slab. One door opening 920 x 2100; two window openings 1800 x 1200. Steel lintels with 150 bearing each end, no propping.",
+      "Backfill to the outside of the wall with imported granular fill; all excavated material removed from site."
+    ],
+    "measured_by": "Claude Code",
+    "date": "2026-10-04",
+    "cmm_edition": "1.0",
+    "cmm_canonical_sha256": "88beafdd18fb62f7d5d96a15bb945b7d24c6c7801f2ec9f8358f5ed81fddcc89"
+  },
+  "waste_calcs": [
+    {"id": "WC1", "label": "Wall centreline girth", "expression": "2 * (6000 + 4000) - 4 * 190", "result_mm": 19240},
+    {"id": "WC2", "label": "Internal length", "expression": "6000 - 2 * 190", "result_mm": 5620},
+    {"id": "WC3", "label": "Internal width", "expression": "4000 - 2 * 190", "result_mm": 3620},
+    {"id": "WC4", "label": "Wall height, top of footing to wall head", "expression": "300 + 150 + 2400", "result_mm": 2850},
+    {"id": "WC5", "label": "Door lintel length", "expression": "920 + 2 * 150", "result_mm": 1220},
+    {"id": "WC6", "label": "Window lintel length", "expression": "1800 + 2 * 150", "result_mm": 2100}
+  ],
+  "groups": [
+    {
+      "trade_heading": "10 Excavation and Filling",
+      "signpost": "Perimeter strip footing, all four walls (A-101, A-201)",
+      "entries": [
+        {
+          "id": "E1",
+          "cmm_code": "10.B.1",
+          "description": "Continuous foundation excavation, 600 wide x 600 deep from existing ground, in stable clay, to perimeter strip footing",
+          "particulars": {
+            "sec.10.req.ground_class": "stable clay per geotechnical note",
+            "sec.10.req.excavation_depth": "600 mm from existing ground",
+            "sec.10.req.groundwater_condition": "not encountered",
+            "sec.10.req.water_control_scope": "none required",
+            "sec.10.req.services_recorded": "none recorded on the line of the trench",
+            "sec.10.req.excavation_constraint": "none; open site, machine excavation",
+            "sec.10.req.excavation_width": "600 mm"
+          },
+          "rows": [
+            {"times": [], "dims": [19.24], "from_calc": ["WC1"]}
+          ],
+          "squared": "19.24",
+          "billed": "19"
+        },
+        {
+          "id": "E2",
+          "cmm_code": "10.F.2",
+          "description": "Spoil disposal off site from strip footing excavation, measured by in-situ excavated volume",
+          "particulars": {
+            "sec.10.req.disposal_destination": "licensed tip, clean fill"
+          },
+          "rows": [
+            {"times": [], "dims": [19.24, 0.60, 0.60], "from_calc": ["WC1", null, null]}
+          ],
+          "squared": "6.9264",
+          "billed": "7"
+        },
+        {
+          "id": "E3",
+          "cmm_code": "10.D.2",
+          "description": "Backfill to outside of strip footing trench above top of footing, imported granular fill, compacted",
+          "particulars": {
+            "sec.10.req.fill_source": "imported",
+            "sec.10.req.earthworks_fill_material": "granular fill to specification",
+            "sec.10.req.layer_thickness": "150 mm maximum compacted lift",
+            "sec.10.req.compaction_requirement": "95% standard maximum dry density",
+            "sec.10.req.compaction_testing": "not required",
+            "sec.10.req.strength_testing": "not required",
+            "sec.10.req.survey_requirement": "not required",
+            "sec.10.req.backfill_zone": "trench above top of footing to existing ground, outside face of wall"
+          },
+          "rows": [
+            {"times": [], "dims": [19.24, 0.60, 0.30], "from_calc": ["WC1", null, null]},
+            {"times": [], "dims": [19.24, 0.19, 0.30], "from_calc": ["WC1", null, null], "deduct": true, "note": "Ddt block wall below ground"}
+          ],
+          "squared": "2.36652",
+          "billed": "2"
+        }
+      ]
+    },
+    {
+      "trade_heading": "11 In-situ Concrete / 13 Reinforcement",
+      "signpost": "Perimeter strip footing, all four walls (A-201)",
+      "entries": [
+        {
+          "id": "E4",
+          "cmm_code": "11.A.3",
+          "description": "Concrete N20 in strip footing 600 wide x 300 deep, poured against excavation",
+          "particulars": {
+            "sec.11.req.concrete_strength": "N20",
+            "sec.11.req.exposure_class": "A2",
+            "sec.11.req.aggregate_size": "20 mm",
+            "sec.11.req.footing_width": "600 mm",
+            "sec.11.req.footing_depth": "300 mm",
+            "sec.11.req.specified_slump": "80 mm",
+            "sec.11.req.shrinkage_limit": "not stated in specification",
+            "sec.11.req.placement_context": "against excavation"
+          },
+          "rows": [
+            {"times": [], "dims": [19.24, 0.60, 0.30], "from_calc": ["WC1", null, null]}
+          ],
+          "squared": "3.4632",
+          "billed": "3"
+        },
+        {
+          "id": "E5",
+          "cmm_code": "13.A.3",
+          "description": "Trench mesh 3-L11TM in strip footing",
+          "particulars": {
+            "sec.13.req.mesh_designation": "3-L11TM"
+          },
+          "anded_with": "E1",
+          "squared": "19.24",
+          "billed": "19"
+        }
+      ]
+    },
+    {
+      "trade_heading": "10 Excavation and Filling / 15 Waterproofing / 11 In-situ Concrete / 13 Reinforcement",
+      "signpost": "Ground floor slab within walls (A-101)",
+      "entries": [
+        {
+          "id": "E6",
+          "cmm_code": "10.E.2",
+          "description": "Subbase under slab, compacted crushed rock 100 thick, measured on plan",
+          "particulars": {
+            "sec.10.req.layer_function": "slab-bed subbase",
+            "sec.10.req.layer_material": "crushed rock 20 mm class 3",
+            "sec.10.req.compaction_requirement": "98% modified maximum dry density",
+            "sec.10.req.layer_depth": "100 mm",
+            "sec.10.req.surface_tolerance": "+0 / -20 mm",
+            "sec.10.req.compaction_testing": "not required",
+            "sec.10.req.strength_testing": "not required",
+            "sec.10.req.survey_requirement": "not required"
+          },
+          "rows": [
+            {"times": [], "dims": [5.62, 3.62], "from_calc": ["WC2", "WC3"]}
+          ],
+          "squared": "20.3444",
+          "billed": "20"
+        },
+        {
+          "id": "E7",
+          "cmm_code": "15.A.4",
+          "description": "Under-slab sheet barrier, 0.2 mm polyethylene vapour barrier, no allowance for laps",
+          "particulars": {
+            "sec.15.req.barrier_function": "vapour barrier",
+            "sec.15.req.sheet_thickness": "0.2 mm"
+          },
+          "anded_with": "E6",
+          "squared": "20.3444",
+          "billed": "20"
+        },
+        {
+          "id": "E8",
+          "cmm_code": "13.A.2",
+          "description": "Mesh reinforcement SL72 in slab on ground, no allowance for laps",
+          "particulars": {
+            "sec.13.req.bar_coating": "uncoated",
+            "sec.13.req.mesh_designation": "SL72"
+          },
+          "anded_with": "E6",
+          "squared": "20.3444",
+          "billed": "20"
+        },
+        {
+          "id": "E9",
+          "cmm_code": "11.B.1",
+          "description": "Concrete N25 in slab on ground 100 thick",
+          "particulars": {
+            "sec.11.req.concrete_strength": "N25",
+            "sec.11.req.exposure_class": "A1",
+            "sec.11.req.aggregate_size": "20 mm",
+            "sec.11.req.slab_thickness": "100 mm",
+            "sec.11.req.specified_slump": "100 mm",
+            "sec.11.req.shrinkage_limit": "not stated in specification",
+            "sec.11.req.inclination": "level"
+          },
+          "rows": [
+            {"times": [], "dims": [5.62, 3.62, 0.10], "from_calc": ["WC2", "WC3", null]}
+          ],
+          "squared": "2.03444",
+          "billed": "2"
+        },
+        {
+          "id": "E10",
+          "cmm_code": "11.D.4",
+          "description": "Steel trowel finish to top of slab on ground",
+          "particulars": {
+            "sec.11.req.finish_type": "steel trowel"
+          },
+          "anded_with": "E6",
+          "squared": "20.3444",
+          "billed": "20"
+        }
+      ]
+    },
+    {
+      "trade_heading": "14 Masonry",
+      "signpost": "External walls, ground floor, all four elevations (A-101, A-201)",
+      "entries": [
+        {
+          "id": "E11",
+          "cmm_code": "14.A.2",
+          "description": "Concrete block wall 190 thick, measured on one face from top of footing, openings deducted, reveals added",
+          "particulars": {
+            "sec.14.req.masonry_unit": "190 mm hollow concrete block, 390 x 190 x 190",
+            "sec.14.req.unit_quality": "standard grey, structural grade",
+            "sec.14.req.leaf_thickness": "190 mm",
+            "sec.14.req.bond": "stretcher bond",
+            "sec.14.req.mortar_mix": "M3",
+            "sec.14.req.joint_profile": "ironed",
+            "sec.14.req.joint_thickness": "10 mm",
+            "sec.14.req.faces_finished": "both faces fair",
+            "sec.14.req.wall_location": "external",
+            "sec.14.req.fire_resistance": "none required",
+            "sec.14.req.acoustic_rating": "none required",
+            "cmm.location.level": "ground floor"
+          },
+          "rows": [
+            {"times": [], "dims": [19.24, 2.85], "from_calc": ["WC1", "WC4"]},
+            {"times": [], "dims": [0.92, 2.10], "deduct": true, "note": "Ddt door opening"},
+            {"times": ["2"], "dims": [1.80, 1.20], "deduct": true, "note": "Ddt window openings"},
+            {"times": ["2"], "dims": [2.10, 0.19], "note": "Add door jambs"},
+            {"times": [], "dims": [0.92, 0.19], "note": "Add door head"},
+            {"times": ["2", "2"], "dims": [1.20, 0.19], "note": "Add window jambs"},
+            {"times": ["2", "2"], "dims": [1.80, 0.19], "note": "Add window heads and sills"}
+          ],
+          "squared": "51.8348",
+          "billed": "52"
+        },
+        {
+          "id": "E12",
+          "cmm_code": "14.F.3",
+          "description": "Forming openings in new blockwork as the work proceeds",
+          "particulars": {
+            "sec.14.req.opening_size": "door 920 x 2100 (1 nr); window 1800 x 1200 (2 nr)"
+          },
+          "rows": [
+            {"times": ["1+2"], "dims": [], "note": "1 door dotted on 2 windows"}
+          ],
+          "squared": "3",
+          "billed": "3"
+        },
+        {
+          "id": "E13",
+          "cmm_code": "14.C.1",
+          "description": "Galvanised steel angle lintels over openings, 150 bearing each end",
+          "particulars": {
+            "sec.14.req.mortar_mix": "M3",
+            "sec.14.req.lintel_type": "galvanised steel angle",
+            "sec.14.req.lintel_designation": "100 x 100 x 8 EA",
+            "sec.14.req.bearing_length": "150 mm each end",
+            "cmm.location.level": "ground floor"
+          },
+          "rows": [
+            {"times": [], "dims": [1.22], "from_calc": ["WC5"], "note": "Door"},
+            {"times": ["2"], "dims": [2.10], "from_calc": ["WC6"], "note": "Windows"}
+          ],
+          "squared": "5.42",
+          "billed": "5"
+        },
+        {
+          "id": "E14",
+          "cmm_code": "14.D.1",
+          "description": "Damp-proof course 190 wide in block wall at slab level",
+          "particulars": {
+            "sec.14.req.wall_location": "external",
+            "sec.14.req.dpc_material": "polyethylene DPC",
+            "sec.14.req.dpc_width": "190 mm"
+          },
+          "rows": [
+            {"times": [], "dims": [19.24], "from_calc": ["WC1"]},
+            {"times": [], "dims": [0.92], "deduct": true, "note": "Ddt door opening"}
+          ],
+          "squared": "18.32",
+          "billed": "18"
+        }
+      ]
+    }
+  ],
+  "not_required": {
+    "01.G.1": "Steel angle lintels are self-supporting on bearing; no temporary propping.",
+    "section:03": "Geotechnical note: no contaminated material.",
+    "section:12": "Footing poured against the excavation; no formwork.",
+    "10.A.4": "Geotechnical note: no rock.",
+    "10.C.1": "Geotechnical note: stable clay, 600 deep trench, no support needed.",
+    "10.D.3": "No buried services in this job.",
+    "10.D.4": "No service trenches in this job.",
+    "10.D.5": "No service trenches in this job.",
+    "10.F.1": "Spoil loaded straight to trucks; no handling on site.",
+    "11.A.1": "No concrete blinding; slab bears on crushed rock subbase.",
+    "11.A.4": "Footing is reinforced with trench mesh, so it is not unreinforced trench fill.",
+    "12.A.2": "Footing poured against the excavation; no formwork.",
+    "12.A.3": "Footing poured against the excavation and slab cast within the walls; no edge formwork.",
+    "13.A.1": "No bar reinforcement scheduled; mesh only.",
+    "14.A.3": "Single-leaf wall; no cavity.",
+    "14.A.4": "Single-leaf wall; no ties.",
+    "14.C.3": "Window sub-sills supplied with the windows (section 31), not masonry sills.",
+    "14.D.2": "Single-leaf wall; no cavity flashing.",
+    "14.E.1": "No bed-joint reinforcement specified.",
+    "14.E.2": "Unreinforced blockwork; no vertical reinforcement.",
+    "14.E.3": "Unreinforced blockwork; cores not filled.",
+    "14.G.1": "Joints ironed as the work proceeds; no separate pointing.",
+    "15.A.3": "No below-ground tanking.",
+    "15.B.1": "No perimeter termite barrier specified.",
+    "15.B.2": "No service penetrations through the slab.",
+    "62.C.4": "No retaining wall; backfill is to a footing trench.",
+    "61.B.1": "Boundary only: the slab is a building slab, not external pavement.",
+    "80.A.8": "Boundary only: not a bridge approach slab.",
+    "83.A.10": "Boundary only: not an industrial plant raft."
+  }
+}

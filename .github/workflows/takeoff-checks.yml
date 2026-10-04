@@ -1,0 +1,21 @@
+name: Take-off aid checks
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify the CMM release checksums
+        run: cd release && sha256sum -c SHA256SUMS
+      - name: Check the take-off basis and reference take-offs
+        run: python3 scripts/takeoff/check.py
+      - name: Run tests
+        run: python3 -m unittest discover -s tests -v
