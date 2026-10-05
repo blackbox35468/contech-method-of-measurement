@@ -54,14 +54,14 @@ Always retain the edition and canonical checksum with any copied or transformed 
 
 ## Licence and attribution
 
-Contech Method of Measurement (CMM), Edition 1.0, © 2026 BLACKBOX TRADING PTY LTD.
+Contech Method of Measurement (CMM), Edition 1.0, © 2026 CONTECH GROUP PTY LTD.
 
 Licensed under the [Creative Commons Attribution 4.0 International licence](https://creativecommons.org/licenses/by/4.0/). See [`LICENSE`](LICENSE) for the full legal text.
 
 Suggested attribution:
 
 ```text
-Contech Method of Measurement (CMM), Edition 1.0, © 2026 BLACKBOX TRADING PTY LTD, licensed CC BY 4.0.
+Contech Method of Measurement (CMM), Edition 1.0, © 2026 CONTECH GROUP PTY LTD, licensed CC BY 4.0.
 ```
 
 ## Corrections and proposals
